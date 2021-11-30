@@ -10,7 +10,7 @@ export const AddressInput = React.memo(
     value,
     onUserInput,
     placeholder,
-    className = 'flex w-full h-full p-3 font-bold rounded overflow-ellipsis recipient-address-input bg-dark-900 placeholder-low-emphesis',
+    className = 'flex w-full h-full p-3 font-bold overflow-ellipsis recipient-address-input bg-dark-900 placeholder-low-emphesis',
     align,
     fontSize = '24px',
     ...rest

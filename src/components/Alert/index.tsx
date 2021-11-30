@@ -25,7 +25,7 @@ const TYPE = {
     ),
   },
   warning: {
-    color: 'bg-yellow bg-opacity-25 text-high-emphesis',
+    color: 'bg-ambire-dark-blue bg-opacity-25 text-high-emphesis',
     icon: (
       <svg
         className="w-5 h-5 text-yellow"
@@ -82,7 +82,7 @@ export default function Alert({
   const [show, setShow] = useState(true)
   const { color, icon } = TYPE[type]
   return message && show ? (
-    <div className={classNames('block relative w-full rounded text-sm p-4', show && 'pr-10', color, className)}>
+    <div className={classNames('block relative w-full text-sm p-4', show && 'pr-10', color, className)}>
       {title && <div className="mb-1 text-2xl font-medium">{title}</div>}
       <div className="flex items-center">
         {showIcon && <div className="flex-shrink-0">{icon}</div>}
