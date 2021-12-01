@@ -669,17 +669,17 @@ export default function Swap() {
           ) : (
             <ButtonError
               onClick={() => {
-                if (isExpertMode) {
-                  handleSwap()
-                } else {
-                  setSwapState({
-                    tradeToConfirm: trade,
-                    attemptingTxn: false,
-                    swapErrorMessage: undefined,
-                    showConfirm: true,
-                    txHash: undefined,
-                  })
-                }
+                // if (isExpertMode) {
+                //   handleSwap()
+                // } else {
+                setSwapState({
+                  tradeToConfirm: trade,
+                  attemptingTxn: false,
+                  swapErrorMessage: undefined,
+                  showConfirm: true,
+                  txHash: undefined,
+                })
+                // }
               }}
               id="swap-button"
               disabled={
