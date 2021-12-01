@@ -96,7 +96,7 @@ export default function TransactionSettings({ placeholderSlippage }: Transaction
 
           <QuestionHelper
             text={i18n._(
-              t`Your transaction will revert 23if the price changes unfavorably by more than this percentage.`
+              t`Your transaction will revert if the price changes unfavorably by more than this percentage.`
             )}
           />
         </div>
@@ -108,9 +108,9 @@ export default function TransactionSettings({ placeholderSlippage }: Transaction
                 : tooLow || tooHigh
                 ? 'border-yellow'
                 : userSlippageTolerance !== 'auto'
-                ? 'border-blue'
+                ? 'border-ambire-purple'
                 : 'border-transparent',
-              'border p-2 rounded bg-dark-800'
+              'border p-2 bg-dark-800'
             )}
             tabIndex={-1}
           >
@@ -180,7 +180,7 @@ export default function TransactionSettings({ placeholderSlippage }: Transaction
         </div>
         <div className="flex items-center">
           <div
-            className="p-2 rounded bg-dark-800 min-w-[82px] max-w-[102px]"
+            className="p-2 bg-dark-800 min-w-[82px] max-w-[102px]"
             style={{ maxWidth: '40px', marginRight: '8px' }}
             tabIndex={-1}
           >

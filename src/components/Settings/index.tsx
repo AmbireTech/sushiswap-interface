@@ -46,14 +46,14 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
   return (
     <div className="relative flex" ref={node}>
       <div
-        className="flex items-center justify-center w-8 h-8 rounded cursor-pointer"
+        className="flex items-center justify-center w-8 h-8 cursor-pointer"
         onClick={toggle}
         id="open-settings-dialog-button"
       >
         <AdjustmentsIcon className="w-[26px] h-[26px] transform rotate-90" />
       </div>
       {open && (
-        <div className="absolute top-14 right-0 z-50 -mr-2.5 min-w-20 md:m-w-22 md:-mr-5 bg-dark-900 border-2 border-dark-800 rounded w-80 shadow-lg">
+        <div className="absolute top-14 right-0 z-50 -mr-2.5 min-w-20 md:m-w-22 bg-dark-900 border-2 border-dark-800 w-80 shadow-lg">
           <div className="p-4 space-y-4">
             <Typography weight={700} className="text-high-emphesis">
               {i18n._(t`Transaction Settings`)}

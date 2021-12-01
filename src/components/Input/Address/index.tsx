@@ -10,7 +10,7 @@ export const AddressInput = React.memo(
     value,
     onUserInput,
     placeholder,
-    className = 'flex w-full h-full p-3 font-bold rounded overflow-ellipsis recipient-address-input bg-dark-900 placeholder-low-emphesis',
+    className = 'flex w-full h-full p-3 font-bold overflow-ellipsis recipient-address-input bg-dark-900 placeholder-low-emphesis',
     align,
     fontSize = '24px',
     ...rest
@@ -24,28 +24,33 @@ export const AddressInput = React.memo(
     const { address, loading } = useENS(value)
 
     const enforcer = (nextUserInput: string) => {
-      if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
-        if (Number(nextUserInput) <= 100) {
-          onUserInput(nextUserInput)
-        }
-      }
+      // console.log({nextUserInput})
+      onUserInput(nextUserInput)
+      // if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
+      //   if (Number(nextUserInput) <= 100) {
+      //     onUserInput(nextUserInput)
+      //   }
+      // }
     }
+
+    // console.log({ rest })
 
     return (
       <>
         <input
           value={value}
           onChange={(event) => {
+            console.log({ event: event.target.value })
             enforcer(event.target.value.replace(/\s+/g, ''))
           }}
           // universal input options
           inputMode="text"
-          title="Wallet Address or ENS name"
+          title="Wallet Address"
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck="false"
-          placeholder="Wallet Address or ENS name"
+          placeholder="Wallet Address"
           pattern="^(0x[a-fA-F0-9]{40})$"
           // text-specific options
           type="text"

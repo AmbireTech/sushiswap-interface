@@ -35,7 +35,7 @@ const nextConfig = {
     disable: process.env.NODE_ENV === 'development',
   },
   images: {
-    domains: ['assets.sushi.com', 'res.cloudinary.com', 'raw.githubusercontent.com', 'logos.covalenthq.com'],
+    domains: ['assets.sushi.com', 'raw.githubusercontent.com', 'res.cloudinary.com', 'logos.covalenthq.com'],
   },
   reactStrictMode: true,
   async redirects() {

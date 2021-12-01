@@ -19,7 +19,9 @@ export default function SwapModalFooter({
 }) {
   const { i18n } = useLingui()
   return (
-    <div className="p-6 mt-0 -m-6 rounded bg-dark-800">
+    <div 
+      // className="w-full p-6 mt-0 bg-dark-800"
+    >
       {/* <div className="grid gap-1 pb-6">
         <div className="flex items-center justify-between">
           <div className="text-sm text-secondary">{i18n._(t`Price`)}</div>

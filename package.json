@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "analyze": "ANALYZE=true yarn build && serve .next -n",
-    "dev": "next dev",
+    "dev": "next dev -p 3005",
     "inspect": "NODE_OPTIONS='--inspect' next dev",
     "build": "yarn lingui && next build",
     "start": "next start",
@@ -115,7 +115,7 @@
     "identity-obj-proxy": "^3.0.0",
     "ioredis": "^4.27.7",
     "jest": "^27.2.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.2.6",
     "lodash": "^4.17.21",
     "lottie-react": "^2.1.0",
     "madge": "^5.0.1",

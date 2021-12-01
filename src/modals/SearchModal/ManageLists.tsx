@@ -93,7 +93,7 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
     <div
       id={listUrlRowHTMLId(listUrl)}
       style={isActive ? { backgroundColor: listColor } : {}}
-      className={classNames(isActive ? 'text-high-emphesis' : 'text-primary bg-dark-700', 'rounded flex flex-row p-4')}
+      className={classNames(isActive ? 'text-high-emphesis' : 'text-primary bg-dark-700', 'flex flex-row p-4')}
       key={listUrl}
     >
       {list.logoURI ? (
@@ -256,7 +256,7 @@ function ManageLists({
         id="list-add-input"
         type="text"
         placeholder="https:// or ipfs:// or ENS name"
-        className="mt-4 w-full bg-dark-900 border border-dark-800 focus:border-transparent focus:border-gradient-r-blue-pink-dark-900 rounded placeholder-secondary focus:placeholder-primary font-bold text-base px-6 py-3.5 appearance-none"
+        className="mt-4 w-full bg-dark-900 border border-dark-800 focus:border-transparent focus:border-gradient-r-abmire-dark-blue-ambire-purple-dark-900 placeholder-secondary focus:placeholder-primary font-bold text-base px-6 py-3.5 appearance-none"
         value={listUrlInput}
         onChange={handleInput}
         title="List URI"

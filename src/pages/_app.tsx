@@ -18,7 +18,7 @@ import MulticallUpdater from '../state/multicall/updater'
 import { PersistGate } from 'redux-persist/integration/react'
 import ReactGA from 'react-ga'
 import { Provider as ReduxProvider } from 'react-redux'
-import TransactionUpdater from '../state/transactions/updater'
+// import TransactionUpdater from '../state/transactions/updater'
 import UserUpdater from '../state/user/updater'
 import Web3ReactManager from '../components/Web3ReactManager'
 import { Web3ReactProvider } from '@web3-react/core'
@@ -106,7 +106,7 @@ function MyApp({
 
   return (
     <Fragment>
-      <Head>
+      {/* <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
@@ -152,7 +152,7 @@ function MyApp({
           property="og:description"
           content="Be a DeFi Chef with Sushi. Swap, earn, stack yields, lend, borrow, leverage all on one decentralized, community driven platform. Welcome home to DeFi"
         />
-      </Head>
+      </Head> */}
       <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
         <Web3ReactProvider getLibrary={getLibrary}>
           <Web3ProviderNetwork getLibrary={getLibrary}>
@@ -163,7 +163,7 @@ function MyApp({
                     <ListsUpdater />
                     <UserUpdater />
                     <ApplicationUpdater />
-                    <TransactionUpdater />
+                    {/* <TransactionUpdater /> */}
                     <MulticallUpdater />
                   </>
                   <Provider>
