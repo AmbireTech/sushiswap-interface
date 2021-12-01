@@ -46,7 +46,7 @@ const ExchangeHeader: FC<ExchangeHeaderProps> = ({ input, output, allowedSlippag
   const [isExpertMode] = useExpertModeManager()
 
   return (
-    <div className="flex items-center mb-4 space-x-3 justify-space-between">
+    <div className="flex items-center justify-between mb-4 space-x-3">
       {/* <div className="grid grid-cols-3 rounded p-3px bg-dark-800 h-[46px]"> */}
       {/* <NavLink
           activeClassName="font-bold border rounded text-high-emphesis border-dark-800 bg-gradient-to-r from-opaque-blue to-opaque-pink hover:from-blue hover:to-pink"
@@ -82,7 +82,7 @@ const ExchangeHeader: FC<ExchangeHeaderProps> = ({ input, output, allowedSlippag
         </NavLink> */}
       {/* </div> */}
       <div className="text-ambire-purple">
-        <Typography variant="lg">{i18n._(t`${isExpertMode ? 'Expert mode' : ''}`)}</Typography>
+        <Typography variant="lg">{isExpertMode && i18n._(t`Expert mode`)}</Typography>
       </div>
       <div className="flex items-center justify-self-end">
         <div className="grid grid-flow-col gap-1">
