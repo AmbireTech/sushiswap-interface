@@ -238,7 +238,7 @@ export function useSwapCallback(
 
   const useArcher = archerRelayDeadline !== undefined
 
-  const [approvalState, approveCallData] = useApproveTxEncodedData(trade, allowedSlippage)
+  const [approvalState, approveCallData] = useApproveTxEncodedData(trade, amountToApprove)
 
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName, signatureData, useArcher)
 
@@ -275,7 +275,8 @@ export function useSwapCallback(
         }
       }
     }
-    if (approvalState === ApprovalState.UNKNOWN) {
+
+    if (amountToApprove && approvalState === ApprovalState.UNKNOWN) {
       return {
         state: SwapCallbackState.LOADING,
         callback: null,

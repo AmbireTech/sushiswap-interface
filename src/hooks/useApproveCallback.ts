@@ -134,7 +134,7 @@ interface ApproveCall {
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export function useApproveTxEncodedData(
   trade: V2Trade<Currency, Currency, TradeType> | undefined,
-  allowedSlippage: Percent,
+  amountToApprove: CurrencyAmount<Currency>,
   doArcher: boolean = false
 ): [ApprovalState, () => ApproveCall] {
   const { chainId } = useActiveWeb3React()
@@ -147,11 +147,6 @@ export function useApproveTxEncodedData(
       : undefined
     : undefined
 
-  const amountToApprove = useMemo(
-    () => (trade && trade.inputAmount.currency.isToken ? trade.maximumAmountIn(allowedSlippage) : undefined),
-    [trade, allowedSlippage]
-  )
-
   const { account } = useActiveWeb3React()
   const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
@@ -159,8 +154,9 @@ export function useApproveTxEncodedData(
 
   // check the current approval status
   const approvalState: ApprovalState = useMemo(() => {
+    if (trade && trade.inputAmount.currency.isNative) return ApprovalState.APPROVED
     if (!amountToApprove || !spender) return ApprovalState.UNKNOWN
-    if (amountToApprove.currency.isNative) return ApprovalState.APPROVED
+    if (amountToApprove.currency.isNative) return ApprovalState.APPROVED // ...
     // we might not have enough data to know whether or not we need to approve
     if (!currentAllowance) return ApprovalState.UNKNOWN
 
