@@ -36,12 +36,12 @@ function Manage({
         title={i18n._(t`Manage`)}
         onBack={() => setModalView(CurrencyModalView.search)}
       />
-      <div className="flex p-1 rounded bg-dark-800">
+      <div className="flex p-1 bg-dark-800">
         {[i18n._(t`Lists`), i18n._(t`Tokens`)].map((title, i) => (
           <div
             className={classNames(
               tabIndex === i && 'bg-dark-900 text-high-emphesis',
-              'flex items-center justify-center flex-1 px-1 py-2 text-lg rounded cursor-pointer select-none text-secondary hover:text-primary focus:outline-none'
+              'flex items-center justify-center flex-1 px-1 py-2 text-lg cursor-pointer select-none text-secondary hover:text-primary focus:outline-none'
             )}
             onClick={() => setTabIndex(i)}
           >

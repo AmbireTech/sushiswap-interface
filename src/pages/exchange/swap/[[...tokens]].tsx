@@ -516,22 +516,24 @@ export default function Swap() {
                   </div>
                 </div>
               </button>
-              {isExpertMode ? (
-                recipient === null && !showWrap ? (
-                  <Button variant="link" size="none" id="add-recipient-button" onClick={() => onChangeRecipient('')}>
-                    + Add recipient (optional)
-                  </Button>
-                ) : (
-                  <Button
-                    variant="link"
-                    size="none"
-                    id="remove-recipient-button"
-                    onClick={() => onChangeRecipient(null)}
-                  >
-                    - {i18n._(t`Remove recipient`)}
-                  </Button>
-                )
-              ) : null}
+              {isExpertMode
+                ? recipient === null &&
+                  !showWrap && (
+                    <Button variant="link" size="none" id="add-recipient-button" onClick={() => onChangeRecipient('')}>
+                      + Add recipient (optional)
+                    </Button>
+                  )
+                : //   : (
+                  //     <Button
+                  //       variant="link"
+                  //       size="none"
+                  //       id="remove-recipient-button"
+                  //       onClick={() => onChangeRecipient(null)}
+                  //     >
+                  //       - {i18n._(t`Remove recipient`)}
+                  //     </Button>
+                  //   )
+                  null}
             </div>
           </AutoColumn>
 

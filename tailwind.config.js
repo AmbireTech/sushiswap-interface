@@ -21,6 +21,7 @@ module.exports = {
         colors: {
           'blue-pink': ['#27B0E6', '#FA52A0'],
           'pink-red-light-brown': ['#FE5A75', '#FEC464'],
+          'abmire-dark-blue-ambire-purple': ['#6000FF', '#AF50FF'],
         },
         background: {
           'dark-1000': '#0D0415',
@@ -68,7 +69,7 @@ module.exports = {
         'ambire-panel-background': '#202229',
         'ambire-input-background': '#1c1e24',
         'ambire-dark-blue': '#6000FF',
-        'ambire-purple': '#AF50FF'
+        'ambire-purple': '#AF50FF',
       },
       lineHeight: {
         '48px': '48px',
