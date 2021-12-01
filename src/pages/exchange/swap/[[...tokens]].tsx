@@ -71,7 +71,7 @@ import { useIsSwapUnsupported } from '../../../hooks/useIsSwapUnsupported'
 import { useLingui } from '@lingui/react'
 import usePrevious from '../../../hooks/usePrevious'
 import { useRouter } from 'next/router'
-import { useSwapCallback } from '../../../hooks/useSwapCallback'
+import { SwapCallbackState, useSwapCallback } from '../../../hooks/useSwapCallback'
 import { useUSDCValue } from '../../../hooks/useUSDCPrice'
 import { warningSeverity } from '../../../functions/prices'
 
@@ -262,13 +262,11 @@ export default function Swap() {
   const showMaxButton = Boolean(maxInputAmount?.greaterThan(0) && !parsedAmounts[Field.INPUT]?.equalTo(maxInputAmount))
 
   // the callback to execute the swap
-  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(
-    trade,
-    allowedSlippage,
-    recipient,
-    signatureData,
-    doArcher ? ttl : undefined
-  )
+  const {
+    state: swapCallbackState,
+    callback: swapCallback,
+    error: swapCallbackError,
+  } = useSwapCallback(trade, allowedSlippage, recipient, signatureData, doArcher ? ttl : undefined)
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
@@ -684,7 +682,12 @@ export default function Swap() {
                 }
               }}
               id="swap-button"
-              disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
+              disabled={
+                !isValid ||
+                (priceImpactSeverity > 3 && !isExpertMode) ||
+                !!swapCallbackError ||
+                !(swapCallbackState === SwapCallbackState.VALID)
+              }
               error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
             >
               {swapInputError

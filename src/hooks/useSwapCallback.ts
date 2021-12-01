@@ -34,7 +34,7 @@ import { useMemo } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import useTransactionDeadline from './useTransactionDeadline'
 import { useUserArcherETHTip } from '../state/user/hooks'
-import { useApproveTxEncodedData } from './useApproveCallback'
+import { useApproveTxEncodedData, ApprovalState } from './useApproveCallback'
 
 export enum SwapCallbackState {
   INVALID,
@@ -238,7 +238,7 @@ export function useSwapCallback(
 
   const useArcher = archerRelayDeadline !== undefined
 
-  const [_, approveCallData] = useApproveTxEncodedData(trade, allowedSlippage)
+  const [approvalState, approveCallData] = useApproveTxEncodedData(trade, allowedSlippage)
 
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName, signatureData, useArcher)
 
@@ -273,6 +273,13 @@ export function useSwapCallback(
           callback: null,
           error: null,
         }
+      }
+    }
+    if (approvalState === ApprovalState.UNKNOWN) {
+      return {
+        state: SwapCallbackState.LOADING,
+        callback: null,
+        error: null,
       }
     }
 
@@ -614,5 +621,16 @@ export function useSwapCallback(
       },
       error: null,
     }
-  }, [trade, library, account, chainId, recipient, recipientAddressOrName, swapCalls, useArcher, addTransaction])
+  }, [
+    approvalState,
+    trade,
+    library,
+    account,
+    chainId,
+    recipient,
+    recipientAddressOrName,
+    swapCalls,
+    useArcher,
+    addTransaction,
+  ])
 }

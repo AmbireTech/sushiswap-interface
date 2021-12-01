@@ -39,6 +39,7 @@ function Manage({
       <div className="flex p-1 bg-dark-800">
         {[i18n._(t`Lists`), i18n._(t`Tokens`)].map((title, i) => (
           <div
+            key={title}
             className={classNames(
               tabIndex === i && 'bg-dark-900 text-high-emphesis',
               'flex items-center justify-center flex-1 px-1 py-2 text-lg cursor-pointer select-none text-secondary hover:text-primary focus:outline-none'
