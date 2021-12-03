@@ -61,7 +61,7 @@ import Web3Connect from '../../../components/Web3Connect'
 import { classNames } from '../../../functions'
 import { computeFiatValuePriceImpact } from '../../../functions/trade'
 import confirmPriceImpactWithoutFee from '../../../features/exchange-v1/swap/confirmPriceImpactWithoutFee'
-import { maxAmountSpend } from '../../../functions/currency'
+// import { maxAmountSpend } from '../../../functions/currency'
 import swapArrowsAnimationData from '../../../animation/swap-arrows.json'
 import { t } from '@lingui/macro'
 import { useActiveWeb3React } from '../../../hooks/useActiveWeb3React'
@@ -258,7 +258,7 @@ export default function Swap() {
     }
   }, [approvalState, approvalSubmitted])
 
-  const maxInputAmount: CurrencyAmount<Currency> | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxInputAmount: CurrencyAmount<Currency> | undefined = currencyBalances[Field.INPUT] // maxAmountSpend(currencyBalances[Field.INPUT])
   const showMaxButton = Boolean(maxInputAmount?.greaterThan(0) && !parsedAmounts[Field.INPUT]?.equalTo(maxInputAmount))
 
   // the callback to execute the swap
