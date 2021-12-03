@@ -219,6 +219,7 @@ export default function Swap() {
   )
 
   const routeNotFound = !trade?.route
+  const loadingTradeData = !trade
 
   // check whether the user has approved the router on the input token
   const [approvalState, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage, doArcher)
@@ -611,6 +612,10 @@ export default function Swap() {
                   ? i18n._(t`Unwrap`)
                   : null)}
             </Button>
+          ) : loadingTradeData && userHasSpecifiedInputOutput ? (
+            <div style={{ textAlign: 'center' }}>
+              <div className="mb-1">{i18n._(t`Loading ...`)}</div>
+            </div>
           ) : routeNotFound && userHasSpecifiedInputOutput ? (
             <div style={{ textAlign: 'center' }}>
               <div className="mb-1">{i18n._(t`Insufficient liquidity for this trade`)}</div>
