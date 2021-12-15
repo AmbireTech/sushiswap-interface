@@ -70,9 +70,7 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 <Typography variant="sm" className="text-primary">
                   {i18n._(t`Toggle Expert Mode`)}
                 </Typography>
-                <QuestionHelper
-                  text={i18n._(t`Bypasses confirmation modals and allows high slippage trades. Use at your own risk.`)}
-                />
+                <QuestionHelper text={i18n._(t`Allows high slippage trades. Use at your own risk.`)} />
               </div>
               <Toggle
                 id="toggle-expert-mode-button"
@@ -130,8 +128,7 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
         <div className="space-y-4">
           <ModalHeader title={i18n._(t`Are you sure?`)} onClose={() => setShowConfirmation(false)} />
           <Typography variant="lg">
-            {i18n._(t`Expert mode turns off the confirm transaction prompt and allows high slippage trades
-                                that often result in bad rates and lost funds.`)}
+            {i18n._(t`Expert mode allows high slippage trades that often result in bad rates and lost funds.`)}
           </Typography>
           <Typography variant="sm" className="font-medium">
             {i18n._(t`ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.`)}
