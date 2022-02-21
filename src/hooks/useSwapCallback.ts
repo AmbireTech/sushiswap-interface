@@ -211,6 +211,11 @@ export function swapErrorToUserReadableMessage(error: any): string {
   }
 }
 
+// TODO: temp to for multi txns
+export async function timeout(ms = 690) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 // returns a function that will execute a swap, if the parameters are all valid
 // and the user has approved the slippage adjusted input amount for the trade
 export function useSwapCallback(
@@ -375,14 +380,28 @@ export function useSwapCallback(
         // console.log({ gsMultisigParams })
 
         // NOTE: it will batch transactions on the Ambire wallet as gnosis provider does not send "gs_multi_send"
-        gsMultisigParams
-          .filter((tx) => !!tx.data)
-          .forEach((tx) =>
+        // gsMultisigParams
+        //   .filter((tx) => !!tx.data)
+        //   .forEach((tx, index, all) =>
+        //     library.getSigner().sendTransaction({
+        //       from: account,
+        //       ...tx,
+        //     })
+        //   )
+
+        for (let index = 0; index < gsMultisigParams.length; index++) {
+          const tx = gsMultisigParams[index]
+          if (!!tx.data) {
             library.getSigner().sendTransaction({
               from: account,
               ...tx,
             })
-          )
+            if (index === 0) {
+              // NOTE: quick hax to make sure the approve txn go first to the wallet
+              await timeout(420)
+            }
+          }
+        }
 
         return 'Transaction sent!'
 
