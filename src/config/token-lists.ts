@@ -1,4 +1,6 @@
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
+import { WALLET, xWALLET, ADX_STAKING, CUSTOM_LOGOS } from './tokens'
+import { ChainId } from '@sushiswap/sdk'
 
 // used to mark unsupported tokens, these are hosted lists of unsupported tokens
 /**
@@ -48,3 +50,36 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
 
 // default lists to be 'active' aka searched across
 export const DEFAULT_ACTIVE_LIST_URLS: string[] = [NFTX_LIST, YEARN_LIST, GEMINI_LIST]
+
+function tokenToTokenListItem(token, chainId) {
+  if (token[chainId]) {
+    return {
+      address: token[chainId].address,
+      chainId: chainId,
+      name: token[chainId].name,
+      symbol: token[chainId].symbol,
+      decimals: token[chainId].decimals,
+      logoURI: CUSTOM_LOGOS[chainId]?.[token[chainId]?.address],
+    }
+  } else {
+    return null
+  }
+}
+
+export const WALLET_DEFAULT_TOKEN_LIST = {
+  name: 'Ambire Wallet Menu',
+  timestamp: '2022-02-22T04:20:42.069Z',
+  version: {
+    major: 1,
+    minor: 1,
+    patch: 0,
+  },
+  tags: {},
+  logoURI: 'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',
+  keywords: ['ambirewallet', 'default'],
+  tokens: [
+    tokenToTokenListItem(WALLET, ChainId.MAINNET),
+    tokenToTokenListItem(xWALLET, ChainId.MAINNET),
+    tokenToTokenListItem(ADX_STAKING, ChainId.MAINNET),
+  ],
+}

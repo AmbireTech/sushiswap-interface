@@ -45,6 +45,10 @@ import {
   WBTC,
   XDAI,
   XSUSHI,
+  WALLET,
+  xWALLET,
+  ADX,
+  ADX_STAKING,
 } from '../config/tokens'
 // a list of tokens by chain
 import { ChainId, Currency, Token, WNATIVE } from '@sushiswap/sdk'
@@ -207,7 +211,18 @@ export const CUSTOM_BASES: {
  * Shows up in the currency select for swap and add liquidity
  */
 export const COMMON_BASES: ChainTokenList = {
-  [ChainId.MAINNET]: [...WRAPPED_NATIVE_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC, SUSHI[ChainId.MAINNET]],
+  [ChainId.MAINNET]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MAINNET],
+    DAI,
+    USDC,
+    USDT,
+    WBTC,
+    WALLET[ChainId.MAINNET],
+    xWALLET[ChainId.MAINNET],
+    ADX[ChainId.MAINNET],
+    ADX_STAKING[ChainId.MAINNET],
+    SUSHI[ChainId.MAINNET],
+  ],
   [ChainId.MATIC]: [
     ...WRAPPED_NATIVE_ONLY[ChainId.MATIC],
     MATIC.USDC,
@@ -233,6 +248,7 @@ export const COMMON_BASES: ChainTokenList = {
     BSC.USDT,
     BSC.BTCB,
     BSC.WETH,
+    ADX[ChainId.BSC],
     SUSHI[ChainId.BSC],
   ],
   [ChainId.ARBITRUM]: [...WRAPPED_NATIVE_ONLY[ChainId.ARBITRUM], ARBITRUM.WBTC, ARBITRUM.USDC],

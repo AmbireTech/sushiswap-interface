@@ -1,7 +1,7 @@
 import { AppState } from '..'
 import DEFAULT_TOKEN_LIST from '@sushiswap/default-token-list'
 import { TokenList } from '@uniswap/token-lists'
-import { UNSUPPORTED_LIST_URLS } from '../../config/token-lists'
+import { UNSUPPORTED_LIST_URLS, WALLET_DEFAULT_TOKEN_LIST } from '../../config/token-lists'
 import UNSUPPORTED_TOKEN_LIST from '../../constants/token-lists/sushiswap-v2-unsupported.tokenlist.json'
 import { WrappedTokenInfo } from './wrappedTokenInfo'
 import { sortByListPriority } from '../../functions/list'
@@ -42,7 +42,8 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
   return map
 }
 
-const TRANSFORMED_DEFAULT_TOKEN_LIST = listToTokenMap(DEFAULT_TOKEN_LIST)
+const TRANSFORMED_SUSHI__DEFAULT_TOKEN_LIST = listToTokenMap(DEFAULT_TOKEN_LIST)
+const TRANSFORMED_WALLET_DEFAULT_TOKEN_LIST = listToTokenMap(WALLET_DEFAULT_TOKEN_LIST)
 
 export function useAllLists(): AppState['lists']['byUrl'] {
   return useAppSelector((state) => state.lists.byUrl)
@@ -80,6 +81,10 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
   }
 }
 
+const TRANSFORMED_DEFAULT_TOKEN_LIST = combineMaps(
+  TRANSFORMED_SUSHI__DEFAULT_TOKEN_LIST,
+  TRANSFORMED_WALLET_DEFAULT_TOKEN_LIST
+)
 // merge tokens contained within lists from urls
 function useCombinedTokenMapFromUrls(urls: string[] | undefined): TokenAddressMap {
   const lists = useAllLists()

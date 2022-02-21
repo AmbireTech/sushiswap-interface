@@ -241,6 +241,58 @@ export const SUSHI: ChainTokenMap = {
   [ChainId.HECO]: new Token(ChainId.HECO, SUSHI_ADDRESS[ChainId.HECO], 18, 'SUSHI', 'SushiToken'),
 }
 
+export const WALLET: ChainTokenMap = {
+  [ChainId.MAINNET]: new Token(
+    ChainId.MAINNET,
+    '0x88800092fF476844f74dC2FC427974BBee2794Ae',
+    18,
+    'WALLET',
+    'Ambire WALLET'
+  ),
+}
+
+export const xWALLET: ChainTokenMap = {
+  [ChainId.MAINNET]: new Token(
+    ChainId.MAINNET,
+    '0x47Cd7E91C3CBaAF266369fe8518345fc4FC12935',
+    18,
+    'xWALLET',
+    'Ambire Wallet Staking Token'
+  ),
+}
+
+export const ADX: ChainTokenMap = {
+  [ChainId.MAINNET]: new Token(
+    ChainId.MAINNET,
+    '0xADE00C28244d5CE17D72E40330B1c318cD12B7c3',
+    18,
+    'ADX',
+    'AdEx Network'
+  ),
+  [ChainId.BSC]: new Token(ChainId.MAINNET, '0x6bfF4Fb161347ad7de4A625AE5aa3A1CA7077819', 18, 'ADX', 'AdEx Network'),
+}
+
+export const ADX_STAKING: ChainTokenMap = {
+  [ChainId.MAINNET]: new Token(
+    ChainId.MAINNET,
+    '0xB6456b57f03352bE48Bf101B46c1752a0813491a',
+    18,
+    'ADX-STAKING',
+    'AdEx Staking Token'
+  ),
+}
+
+export const CUSTOM_LOGOS = {
+  [ChainId.MAINNET]: {
+    [WALLET[ChainId.MAINNET].address]:
+      'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',
+    [xWALLET[ChainId.MAINNET].address]:
+      'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/xwallet_250x250.png',
+    [ADX_STAKING[ChainId.MAINNET].address]:
+      'https://raw.githubusercontent.com/AmbireTech/adex-brand/master/logos/vaporwave-adex-2.png',
+  },
+}
+
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ...WETH9,
   [ChainId.ARBITRUM_TESTNET]: new Token(

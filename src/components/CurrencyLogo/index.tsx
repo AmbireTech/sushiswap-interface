@@ -4,6 +4,7 @@ import React, { FunctionComponent, useMemo } from 'react'
 import Logo from '../Logo'
 import { WrappedTokenInfo } from '../../state/lists/wrappedTokenInfo'
 import useHttpLocations from '../../hooks/useHttpLocations'
+import { CUSTOM_LOGOS } from '../../config/tokens'
 
 const BLOCKCHAIN = {
   [ChainId.MAINNET]: 'ethereum',
@@ -29,6 +30,9 @@ function getCurrencySymbol(currency) {
 export function getCurrencyLogoUrls(currency) {
   const urls = []
 
+  if (CUSTOM_LOGOS[currency.chainId]?.[currency.address]) {
+    urls.push(CUSTOM_LOGOS[currency.chainId][currency.address])
+  }
   urls.push(`https://raw.githubusercontent.com/sushiswap/icons/master/token/${getCurrencySymbol(currency)}.jpg`)
   if (currency.chainId in BLOCKCHAIN) {
     urls.push(
