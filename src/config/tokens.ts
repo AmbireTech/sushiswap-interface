@@ -269,7 +269,7 @@ export const ADX: ChainTokenMap = {
     'ADX',
     'AdEx Network'
   ),
-  [ChainId.BSC]: new Token(ChainId.MAINNET, '0x6bfF4Fb161347ad7de4A625AE5aa3A1CA7077819', 18, 'ADX', 'AdEx Network'),
+  [ChainId.BSC]: new Token(ChainId.BSC, '0x6bfF4Fb161347ad7de4A625AE5aa3A1CA7077819', 18, 'ADX', 'AdEx Network'),
 }
 
 export const ADX_STAKING: ChainTokenMap = {
