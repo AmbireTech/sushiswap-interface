@@ -49,6 +49,7 @@ import {
   xWALLET,
   ADX,
   ADX_STAKING,
+  ADX_LOYALTY,
 } from '../config/tokens'
 // a list of tokens by chain
 import { ChainId, Currency, Token, WNATIVE } from '@sushiswap/sdk'
@@ -221,6 +222,7 @@ export const COMMON_BASES: ChainTokenList = {
     xWALLET[ChainId.MAINNET],
     ADX[ChainId.MAINNET],
     ADX_STAKING[ChainId.MAINNET],
+    ADX_LOYALTY[ChainId.MAINNET],
     SUSHI[ChainId.MAINNET],
   ],
   [ChainId.MATIC]: [

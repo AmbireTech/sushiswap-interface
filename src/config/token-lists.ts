@@ -1,5 +1,5 @@
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
-import { WALLET, xWALLET, ADX_STAKING, CUSTOM_LOGOS } from './tokens'
+import { WALLET, xWALLET, ADX_STAKING, ADX_LOYALTY, CUSTOM_LOGOS } from './tokens'
 import { ChainId } from '@sushiswap/sdk'
 
 // used to mark unsupported tokens, these are hosted lists of unsupported tokens
@@ -68,7 +68,7 @@ function tokenToTokenListItem(token, chainId) {
 
 export const WALLET_DEFAULT_TOKEN_LIST = {
   name: 'Ambire Wallet Menu',
-  timestamp: '2022-02-22T04:20:42.069Z',
+  timestamp: '2022-02-22T04:20:42.690Z',
   version: {
     major: 1,
     minor: 1,
@@ -80,6 +80,7 @@ export const WALLET_DEFAULT_TOKEN_LIST = {
   tokens: [
     tokenToTokenListItem(WALLET, ChainId.MAINNET),
     tokenToTokenListItem(xWALLET, ChainId.MAINNET),
+    tokenToTokenListItem(ADX_LOYALTY, ChainId.MAINNET),
     tokenToTokenListItem(ADX_STAKING, ChainId.MAINNET),
   ],
 }

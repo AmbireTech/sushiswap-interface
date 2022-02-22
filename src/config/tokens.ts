@@ -282,6 +282,16 @@ export const ADX_STAKING: ChainTokenMap = {
   ),
 }
 
+export const ADX_LOYALTY: ChainTokenMap = {
+  [ChainId.MAINNET]: new Token(
+    ChainId.MAINNET,
+    '0xd9A4cB9dc9296e111c66dFACAb8Be034EE2E1c2C',
+    18,
+    'ADX-LOYALTY',
+    'AdEx Loyalty Token'
+  ),
+}
+
 export const CUSTOM_LOGOS = {
   [ChainId.MAINNET]: {
     [WALLET[ChainId.MAINNET].address]:
@@ -290,6 +300,8 @@ export const CUSTOM_LOGOS = {
       'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/xwallet_250x250.png',
     [ADX_STAKING[ChainId.MAINNET].address]:
       'https://raw.githubusercontent.com/AmbireTech/adex-brand/master/logos/vaporwave-adex-2.png',
+    [ADX_LOYALTY[ChainId.MAINNET].address]:
+      'https://raw.githubusercontent.com/AmbireTech/adex-brand/master/logos/ADX-loyalty%40256x256.png',
   },
 }
 
