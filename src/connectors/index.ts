@@ -17,7 +17,8 @@ const RPC = {
   [ChainId.KOVAN]: 'https://eth-kovan.alchemyapi.io/v2/6OVAa_B_rypWWl9HqtiYK26IRxXiYqER',
   [ChainId.FANTOM]: 'https://rpcapi.fantom.network',
   [ChainId.FANTOM_TESTNET]: 'https://rpc.testnet.fantom.network',
-  [ChainId.MATIC]: 'https://rpc-mainnet.maticvigil.com',
+  // [ChainId.MATIC]: 'https://rpc-mainnet.maticvigil.com',
+  [ChainId.MATIC]: 'https://polygon-mainnet.infura.io/v3/3d22938fd7dd41b7af4197752f83e8a1',
   // [ChainId.MATIC]:
   //     'https://apis.ankr.com/e22bfa5f5a124b9aa1f911b742f6adfe/c06bb163c3c2a10a4028959f4d82836d/polygon/full/main',
   [ChainId.MATIC_TESTNET]: 'https://rpc-mumbai.matic.today',
