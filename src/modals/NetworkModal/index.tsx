@@ -64,7 +64,8 @@ export const SUPPORTED_NETWORKS: {
       symbol: 'MATIC',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc-mainnet.maticvigil.com'], // ['https://matic-mainnet.chainstacklabs.com/'],
+    rpcUrls: ['https://polygon-mainnet.infura.io/v3/3d22938fd7dd41b7af4197752f83e8a1'],
+    //['https://rpc-mainnet.maticvigil.com'], // ['https://matic-mainnet.chainstacklabs.com/'],
     blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com'],
   },
   [ChainId.HECO]: {
