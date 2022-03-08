@@ -2,7 +2,7 @@ import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
 import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
 
 import { ApplicationModal } from '../../state/application/actions'
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 import Image from 'next/image'
 import Modal from '../../components/Modal'
 import ModalHeader from '../../components/ModalHeader'
@@ -23,7 +23,7 @@ export const SUPPORTED_NETWORKS: {
     blockExplorerUrls: string[]
   }
 } = {
-  [ChainId.MAINNET]: {
+  [ChainId.ETHEREUM]: {
     chainId: '0x1',
     chainName: 'Ethereum',
     nativeCurrency: {
@@ -172,6 +172,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: ['https://rpc.moonriver.moonbeam.network'],
     blockExplorerUrls: ['https://blockscout.moonriver.moonbeam.network'],
   },
+  [ChainId.MOONBEAM]: {
+    chainId: '0x504',
+    chainName: 'Moonbeam',
+    nativeCurrency: {
+      name: 'Glimmer',
+      symbol: 'GLMR',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.api.moonbeam.network'],
+    blockExplorerUrls: ['https://moonbeam.moonscan.io'],
+  },
 }
 
 export default function NetworkModal(): JSX.Element | null {
@@ -191,7 +202,7 @@ export default function NetworkModal(): JSX.Element | null {
 
       <div className="grid grid-flow-row-dense grid-cols-1 gap-5 overflow-y-auto md:grid-cols-2">
         {[
-          ChainId.MAINNET,
+          ChainId.ETHEREUM,
           ChainId.MATIC,
           ChainId.FANTOM,
           ChainId.ARBITRUM,
@@ -201,6 +212,7 @@ export default function NetworkModal(): JSX.Element | null {
           ChainId.XDAI,
           ChainId.HARMONY,
           ChainId.AVALANCHE,
+          ChainId.MOONBEAM,
           ChainId.CELO,
           ChainId.PALM,
           ChainId.MOONRIVER,
@@ -228,7 +240,7 @@ export default function NetworkModal(): JSX.Element | null {
                 toggleNetworkModal()
                 const params = SUPPORTED_NETWORKS[key]
                 cookie.set('chainId', key)
-                if (key === ChainId.MAINNET) {
+                if (key === ChainId.ETHEREUM) {
                   library?.send('wallet_switchEthereumChain', [{ chainId: '0x1' }, account])
                 } else {
                   library?.send('wallet_addEthereumChain', [params, account])

@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 
 export enum Feature {
   AMM = 'AMM',
@@ -13,7 +13,7 @@ export enum Feature {
 }
 
 const features = {
-  [ChainId.MAINNET]: [
+  [ChainId.ETHEREUM]: [
     Feature.AMM,
     Feature.LIQUIDITY_MINING,
     Feature.BENTOBOX,
@@ -49,6 +49,7 @@ const features = {
   [ChainId.XDAI]: [Feature.AMM, Feature.LIQUIDITY_MINING, Feature.ANALYTICS, Feature.BENTOBOX, Feature.KASHI],
   [ChainId.MOONRIVER]: [Feature.AMM],
   [ChainId.ARBITRUM]: [Feature.AMM, Feature.LIQUIDITY_MINING, Feature.ANALYTICS, Feature.BENTOBOX, Feature.KASHI],
+  [ChainId.MOONBEAM]: [Feature.AMM],
 }
 
 export function featureEnabled(feature: Feature, chainId: ChainId): boolean {

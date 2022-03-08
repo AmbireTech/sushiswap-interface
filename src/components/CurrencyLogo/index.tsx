@@ -1,4 +1,4 @@
-import { ChainId, Currency, WNATIVE } from '@sushiswap/sdk'
+import { ChainId, Currency, WNATIVE } from '@sushiswap/core-sdk'
 import React, { FunctionComponent, useMemo } from 'react'
 
 import Logo from '../Logo'
@@ -7,13 +7,15 @@ import useHttpLocations from '../../hooks/useHttpLocations'
 import { CUSTOM_LOGOS } from '../../config/tokens'
 
 const BLOCKCHAIN = {
-  [ChainId.MAINNET]: 'ethereum',
+  [ChainId.ETHEREUM]: 'ethereum',
   [ChainId.BSC]: 'binanace',
   [ChainId.CELO]: 'celo',
   [ChainId.FANTOM]: 'fantom',
   [ChainId.HARMONY]: 'harmony',
   [ChainId.MATIC]: 'polygon',
   [ChainId.XDAI]: 'xdai',
+  [ChainId.MOONBEAM]: 'moonbeam',
+  [ChainId.AVALANCHE]: 'avalanche',
   // [ChainId.OKEX]: 'okex',
 }
 
@@ -57,7 +59,7 @@ const FantomLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/tok
 const HarmonyLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token/one.jpg'
 const HecoLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token/heco.jpg'
 const MaticLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg'
-const MoonbeamLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token/eth.jpg'
+const MoonbeamLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/moonbeam.jpg'
 const OKExLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token/okt.jpg'
 const xDaiLogo =
   'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/xdai/assets/0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d/logo.png'
@@ -66,7 +68,7 @@ const PalmLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token
 const MovrLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/token/movr.jpg'
 
 const LOGO: { readonly [chainId in ChainId]?: string } = {
-  [ChainId.MAINNET]: EthereumLogo,
+  [ChainId.ETHEREUM]: EthereumLogo,
   [ChainId.FANTOM]: FantomLogo,
   [ChainId.FANTOM_TESTNET]: FantomLogo,
   [ChainId.MATIC]: MaticLogo,
@@ -89,6 +91,7 @@ const LOGO: { readonly [chainId in ChainId]?: string } = {
   [ChainId.PALM]: PalmLogo,
   [ChainId.PALM_TESTNET]: PalmLogo,
   [ChainId.MOONRIVER]: MovrLogo,
+  [ChainId.MOONBEAM]: MoonbeamLogo,
 }
 
 interface CurrencyLogoProps {

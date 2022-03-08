@@ -50,9 +50,10 @@ import {
   ADX,
   ADX_STAKING,
   ADX_LOYALTY,
+  MOONBEAM,
 } from '../config/tokens'
 // a list of tokens by chain
-import { ChainId, Currency, Token, WNATIVE } from '@sushiswap/sdk'
+import { ChainId, Currency, Token, WNATIVE } from '@sushiswap/core-sdk'
 
 type ChainTokenList = {
   readonly [chainId: number]: Token[]
@@ -81,7 +82,7 @@ const MIRROR_ADDITIONAL_BASES: { [tokenAddress: string]: Token[] } = {
 
 // TODO: SDK should have two maps, WETH map and WNATIVE map.
 const WRAPPED_NATIVE_ONLY: ChainTokenList = {
-  [ChainId.MAINNET]: [WNATIVE[ChainId.MAINNET]],
+  [ChainId.ETHEREUM]: [WNATIVE[ChainId.ETHEREUM]],
   [ChainId.ROPSTEN]: [WNATIVE[ChainId.ROPSTEN]],
   [ChainId.RINKEBY]: [WNATIVE[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [WNATIVE[ChainId.GÖRLI]],
@@ -107,12 +108,13 @@ const WRAPPED_NATIVE_ONLY: ChainTokenList = {
   [ChainId.CELO]: [WNATIVE[ChainId.CELO]],
   [ChainId.PALM]: [WNATIVE[ChainId.PALM]],
   [ChainId.MOONRIVER]: [WNATIVE[ChainId.MOONRIVER]],
+  [ChainId.MOONBEAM]: [WNATIVE[ChainId.MOONBEAM]],
 }
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WRAPPED_NATIVE_ONLY,
-  [ChainId.MAINNET]: [...WRAPPED_NATIVE_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC, RUNE, NFTX, STETH],
+  [ChainId.ETHEREUM]: [...WRAPPED_NATIVE_ONLY[ChainId.ETHEREUM], DAI, USDC, USDT, WBTC, RUNE, NFTX, STETH],
   [ChainId.MATIC]: [...WRAPPED_NATIVE_ONLY[ChainId.MATIC], MATIC.USDC, MATIC.WBTC, MATIC.DAI, MATIC.WETH, MATIC.USDT],
   [ChainId.FANTOM]: [...WRAPPED_NATIVE_ONLY[ChainId.FANTOM], FANTOM.DAI, FANTOM.USDC, FANTOM.WBTC, FANTOM.WETH],
   [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB, BSC.WETH],
@@ -152,12 +154,20 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ],
   [ChainId.PALM]: [...WRAPPED_NATIVE_ONLY[ChainId.PALM], PALM.WETH, PALM.DAI],
   [ChainId.MOONRIVER]: [WNATIVE[ChainId.MOONRIVER]],
+  [ChainId.MOONBEAM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MOONBEAM],
+    MOONBEAM.USDC,
+    MOONBEAM.USDT,
+    MOONBEAM.UST,
+    MOONBEAM.WETH,
+    MOONBEAM.WBTC,
+  ],
 }
 
 export const ADDITIONAL_BASES: {
   [chainId: number]: { [tokenAddress: string]: Token[] }
 } = {
-  [ChainId.MAINNET]: {
+  [ChainId.ETHEREUM]: {
     ...MIRROR_ADDITIONAL_BASES,
     '0xF16E4d813f4DcfDe4c5b44f305c908742De84eF0': [ETH2X_FLI],
     '0xe379a60A8FC7C9DD161887fFADF3054790576c8D': [XSUSHI], // XSUSHI 25 Call [30 June 2021]
@@ -200,8 +210,8 @@ export const ADDITIONAL_BASES: {
 export const CUSTOM_BASES: {
   [chainId: number]: { [tokenAddress: string]: Token[] }
 } = {
-  [ChainId.MAINNET]: {
-    [AMPL.address]: [DAI, WNATIVE[ChainId.MAINNET]],
+  [ChainId.ETHEREUM]: {
+    [AMPL.address]: [DAI, WNATIVE[ChainId.ETHEREUM]],
   },
   [ChainId.MATIC]: {
     [MATIC.TEL.address]: [MATIC.SUSHI, MATIC.AAVE],
@@ -212,18 +222,18 @@ export const CUSTOM_BASES: {
  * Shows up in the currency select for swap and add liquidity
  */
 export const COMMON_BASES: ChainTokenList = {
-  [ChainId.MAINNET]: [
-    ...WRAPPED_NATIVE_ONLY[ChainId.MAINNET],
+  [ChainId.ETHEREUM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.ETHEREUM],
     DAI,
     USDC,
     USDT,
     WBTC,
-    WALLET[ChainId.MAINNET],
-    xWALLET[ChainId.MAINNET],
-    ADX[ChainId.MAINNET],
-    ADX_STAKING[ChainId.MAINNET],
-    ADX_LOYALTY[ChainId.MAINNET],
-    SUSHI[ChainId.MAINNET],
+    WALLET[ChainId.ETHEREUM],
+    xWALLET[ChainId.ETHEREUM],
+    ADX[ChainId.ETHEREUM],
+    ADX_STAKING[ChainId.ETHEREUM],
+    ADX_LOYALTY[ChainId.ETHEREUM],
+    SUSHI[ChainId.ETHEREUM],
   ],
   [ChainId.MATIC]: [
     ...WRAPPED_NATIVE_ONLY[ChainId.MATIC],
@@ -301,12 +311,20 @@ export const COMMON_BASES: ChainTokenList = {
   [ChainId.CELO]: [...WRAPPED_NATIVE_ONLY[ChainId.CELO], CELO.cETH, CELO.cUSD, CELO.cEURO, CELO.cBTC],
   [ChainId.MOONRIVER]: [...WRAPPED_NATIVE_ONLY[ChainId.MOONRIVER]],
   [ChainId.PALM]: [...WRAPPED_NATIVE_ONLY[ChainId.PALM], PALM.WETH, PALM.DAI],
+  [ChainId.MOONBEAM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MOONBEAM],
+    MOONBEAM.USDC,
+    MOONBEAM.USDT,
+    MOONBEAM.UST,
+    MOONBEAM.WETH,
+    MOONBEAM.WBTC,
+  ],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WRAPPED_NATIVE_ONLY,
-  [ChainId.MAINNET]: [...WRAPPED_NATIVE_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
+  [ChainId.ETHEREUM]: [...WRAPPED_NATIVE_ONLY[ChainId.ETHEREUM], DAI, USDC, USDT, WBTC],
   [ChainId.MATIC]: [...WRAPPED_NATIVE_ONLY[ChainId.MATIC], MATIC.USDC, MATIC.WBTC, MATIC.DAI, MATIC.WETH, MATIC.USDT],
   [ChainId.FANTOM]: [...WRAPPED_NATIVE_ONLY[ChainId.FANTOM], FANTOM.DAI, FANTOM.USDC, FANTOM.WBTC, FANTOM.WETH],
   [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB, BSC.WETH],
@@ -346,16 +364,24 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ],
   [ChainId.MOONRIVER]: [...WRAPPED_NATIVE_ONLY[ChainId.MOONRIVER]],
   [ChainId.PALM]: [...WRAPPED_NATIVE_ONLY[ChainId.PALM], PALM.WETH, PALM.DAI],
+  [ChainId.MOONBEAM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MOONBEAM],
+    MOONBEAM.USDC,
+    MOONBEAM.USDT,
+    MOONBEAM.UST,
+    MOONBEAM.WETH,
+    MOONBEAM.WBTC,
+  ],
 }
 
 export const PINNED_PAIRS: {
   readonly [chainId in ChainId]?: [Token, Token][]
 } = {
-  [ChainId.MAINNET]: [
-    [SUSHI[ChainId.MAINNET], WNATIVE[ChainId.MAINNET]],
+  [ChainId.ETHEREUM]: [
+    [SUSHI[ChainId.ETHEREUM], WNATIVE[ChainId.ETHEREUM]],
     [
-      new Token(ChainId.MAINNET, '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', 8, 'cDAI', 'Compound Dai'),
-      new Token(ChainId.MAINNET, '0x39AA39c021dfbaE8faC545936693aC917d5E7563', 8, 'cUSDC', 'Compound USD Coin'),
+      new Token(ChainId.ETHEREUM, '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', 8, 'cDAI', 'Compound Dai'),
+      new Token(ChainId.ETHEREUM, '0x39AA39c021dfbaE8faC545936693aC917d5E7563', 8, 'cUSDC', 'Compound USD Coin'),
     ],
     [USDC, USDT],
     [DAI, USDT],
