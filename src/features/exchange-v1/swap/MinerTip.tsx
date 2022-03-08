@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, Ether } from '@sushiswap/sdk'
+import { ChainId, CurrencyAmount, Ether } from '@sushiswap/core-sdk'
 import {
   useUserArcherETHTip,
   useUserArcherGasPrice,
@@ -105,7 +105,7 @@ export default function MinerTip() {
           Miner Tip
         </Typography>
         <Typography variant="sm" className="text-secondary" onClick={toggleSettings}>
-          {CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.MAINNET), userETHTip).toFixed(3)} ETH
+          {CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.ETHEREUM), userETHTip).toFixed(3)} ETH
         </Typography>
       </div>
       {!userTipManualOverride && (

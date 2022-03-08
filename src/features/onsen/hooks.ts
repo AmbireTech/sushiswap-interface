@@ -5,7 +5,7 @@ import {
   MASTERCHEF_ADDRESS,
   MASTERCHEF_V2_ADDRESS,
   MINICHEF_ADDRESS,
-} from '@sushiswap/sdk'
+} from '@sushiswap/core-sdk'
 import { Chef } from './enum'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../../state/multicall/hooks'
 import { Dispatch, useCallback, useEffect, useMemo, useState } from 'react'
@@ -36,7 +36,7 @@ export function useChefContract(chef: Chef) {
 }
 
 const CHEFS = {
-  [ChainId.MAINNET]: [Chef.MASTERCHEF, Chef.MASTERCHEF_V2],
+  [ChainId.ETHEREUM]: [Chef.MASTERCHEF, Chef.MASTERCHEF_V2],
   [ChainId.MATIC]: [Chef.MINICHEF],
 }
 

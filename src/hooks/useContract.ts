@@ -1,5 +1,8 @@
+import { ARCHER_ROUTER_ADDRESS } from '@sushiswap/sdk'
+
+import { STOP_LIMIT_ORDER_ADDRESS } from '@sushiswap/limit-order-sdk'
+
 import {
-  ARCHER_ROUTER_ADDRESS,
   BAR_ADDRESS,
   BENTOBOX_ADDRESS,
   BORING_HELPER_ADDRESS,
@@ -7,7 +10,7 @@ import {
   ChainId,
   ENS_REGISTRAR_ADDRESS,
   FACTORY_ADDRESS,
-  KASHI_ADDRESS,
+  // KASHI_ADDRESS,
   MAKER_ADDRESS,
   MASTERCHEF_ADDRESS,
   MASTERCHEF_V2_ADDRESS,
@@ -15,11 +18,10 @@ import {
   MINICHEF_ADDRESS,
   MULTICALL2_ADDRESS,
   ROUTER_ADDRESS,
-  STOP_LIMIT_ORDER_ADDRESS,
   SUSHI_ADDRESS,
   TIMELOCK_ADDRESS,
   WNATIVE_ADDRESS,
-} from '@sushiswap/sdk'
+} from '@sushiswap/core-sdk'
 import {
   ARGENT_WALLET_DETECTOR_ABI,
   ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS,
@@ -93,7 +95,7 @@ export function useWETH9Contract(withSignerIfPossible?: boolean): Contract | nul
 export function useArgentWalletDetectorContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    chainId === ChainId.MAINNET ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
+    chainId === ChainId.ETHEREUM ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
     ARGENT_WALLET_DETECTOR_ABI,
     false
   )

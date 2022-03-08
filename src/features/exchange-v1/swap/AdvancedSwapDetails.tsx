@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Ether, Percent, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Ether, Percent, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
 import React, { useMemo } from 'react'
 import { RowBetween, RowFixed } from '../../../components/Row'
 
@@ -114,7 +114,7 @@ export function AdvancedSwapDetails({ trade, allowedSlippage, minerBribe }: Adva
             <QuestionHelper text={i18n._(t`Tip to encourage miners to select this transaction.`)} />
           </RowFixed>
           <div className="text-sm font-bold text-high-emphesis">
-            {CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.MAINNET), minerBribe).toFixed(4)} ETH
+            {CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.ETHEREUM), minerBribe).toFixed(4)} ETH
           </div>
         </RowBetween>
       )}

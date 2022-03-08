@@ -1,6 +1,6 @@
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
 import { WALLET, xWALLET, ADX_STAKING, ADX_LOYALTY, CUSTOM_LOGOS } from './tokens'
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 
 // used to mark unsupported tokens, these are hosted lists of unsupported tokens
 /**
@@ -78,9 +78,9 @@ export const WALLET_DEFAULT_TOKEN_LIST = {
   logoURI: 'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',
   keywords: ['ambirewallet', 'default'],
   tokens: [
-    tokenToTokenListItem(WALLET, ChainId.MAINNET),
-    tokenToTokenListItem(xWALLET, ChainId.MAINNET),
-    tokenToTokenListItem(ADX_LOYALTY, ChainId.MAINNET),
-    tokenToTokenListItem(ADX_STAKING, ChainId.MAINNET),
+    tokenToTokenListItem(WALLET, ChainId.ETHEREUM),
+    tokenToTokenListItem(xWALLET, ChainId.ETHEREUM),
+    tokenToTokenListItem(ADX_LOYALTY, ChainId.ETHEREUM),
+    tokenToTokenListItem(ADX_STAKING, ChainId.ETHEREUM),
   ],
 }

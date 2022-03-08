@@ -1,5 +1,5 @@
 import { AppDispatch } from '../state'
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 import { TokenList } from '@uniswap/token-lists'
 import { fetchTokenList } from '../state/lists/actions'
 import { getNetworkLibrary } from '../functions/getNetworkLibrary'
@@ -16,8 +16,8 @@ export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean
 
   const ensResolver = useCallback(
     (ensName: string) => {
-      if (!library || chainId !== ChainId.MAINNET) {
-        if (chainId === ChainId.MAINNET) {
+      if (!library || chainId !== ChainId.ETHEREUM) {
+        if (chainId === ChainId.ETHEREUM) {
           const networkLibrary = getNetworkLibrary()
           if (networkLibrary) {
             return resolveENSContentHash(ensName, networkLibrary)

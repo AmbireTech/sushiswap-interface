@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 import NavLink from '../../components/NavLink'
 import React from 'react'
 import { useActiveWeb3React } from '../../hooks'
@@ -41,7 +41,7 @@ const Menu = ({ positionsLength }) => {
         </a>
       </NavLink>
 
-      {chainId === ChainId.MAINNET && (
+      {chainId === ChainId.ETHEREUM && (
         <>
           <NavLink
             exact
@@ -64,7 +64,7 @@ const Menu = ({ positionsLength }) => {
         </>
       )}
 
-      {(chainId === ChainId.MAINNET || chainId === ChainId.MATIC) && (
+      {(chainId === ChainId.ETHEREUM || chainId === ChainId.MATIC) && (
         <NavLink
           exact
           href={`/farm?filter=2x`}

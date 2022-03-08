@@ -1,4 +1,4 @@
-import { ChainId, Percent } from '@sushiswap/sdk'
+import { ChainId, Percent } from '@sushiswap/core-sdk'
 import React, { useRef, useState } from 'react'
 import {
   useExpertModeManager,
@@ -101,7 +101,7 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 toggle={() => (singleHopOnly ? setSingleHopOnly(false) : setSingleHopOnly(true))}
               />
             </div>
-            {/* {chainId == ChainId.MAINNET && (
+            {/* {chainId == ChainId.ETHEREUM && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Typography variant="sm" className="text-primary">

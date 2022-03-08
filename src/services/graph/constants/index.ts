@@ -1,9 +1,9 @@
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 const THE_GRAPH = 'https://api.thegraph.com'
 const NAS_GRAPH = 'https://graph.kkt.one/node'
 const HYPER_GRAPH = 'https://q.hg.network'
 export const GRAPH_HOST = {
-  [ChainId.MAINNET]: THE_GRAPH,
+  [ChainId.ETHEREUM]: THE_GRAPH,
   [ChainId.XDAI]: THE_GRAPH,
   [ChainId.MATIC]: THE_GRAPH,
   [ChainId.FANTOM]: THE_GRAPH,

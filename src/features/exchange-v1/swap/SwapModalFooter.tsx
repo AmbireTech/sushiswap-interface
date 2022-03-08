@@ -1,4 +1,4 @@
-import { Currency, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
+import { Currency, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
 import React, { ReactNode } from 'react'
 
 import { ButtonError } from '../../../components/Button'
@@ -19,8 +19,8 @@ export default function SwapModalFooter({
 }) {
   const { i18n } = useLingui()
   return (
-    <div 
-      // className="w-full p-6 mt-0 bg-dark-800"
+    <div
+    // className="w-full p-6 mt-0 bg-dark-800"
     >
       {/* <div className="grid gap-1 pb-6">
         <div className="flex items-center justify-between">

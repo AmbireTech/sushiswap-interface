@@ -1,10 +1,10 @@
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId } from '@sushiswap/core-sdk'
 import { GRAPH_HOST } from '../constants'
 import { request } from 'graphql-request'
 import { barHistoriesQuery, barQuery } from '../queries/bar'
 
 const BAR = {
-  [ChainId.MAINNET]: 'matthewlilley/bar',
+  [ChainId.ETHEREUM]: 'matthewlilley/bar',
 }
 
 export const bar = async (query, variables = undefined) =>

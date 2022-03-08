@@ -1,12 +1,6 @@
-import {
-  ARCHER_ROUTER_ADDRESS,
-  Currency,
-  CurrencyAmount,
-  Percent,
-  ROUTER_ADDRESS,
-  TradeType,
-  Trade as V2Trade,
-} from '@sushiswap/sdk'
+import { ARCHER_ROUTER_ADDRESS } from '@sushiswap/sdk'
+
+import { Currency, CurrencyAmount, Percent, ROUTER_ADDRESS, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
 import { useCallback, useMemo } from 'react'
 import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 

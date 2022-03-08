@@ -1,4 +1,4 @@
-import { ChainId, Currency } from '@sushiswap/sdk'
+import { ChainId, Currency } from '@sushiswap/core-sdk'
 
 export function currencyId(currency: Currency): string {
   if ([ChainId.CELO].includes(currency.chainId)) {
@@ -13,7 +13,7 @@ export function currencyId(currency: Currency): string {
 
 // export function currencyId(
 //   currency: Currency,
-//   chainId = ChainId.MAINNET
+//   chainId = ChainId.ETHEREUM
 // ): string {
 //   if (currency === Currency.getNativeCurrency(chainId))
 //     return Currency.getNativeCurrencySymbol(chainId);

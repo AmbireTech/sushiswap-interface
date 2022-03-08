@@ -9,7 +9,7 @@ import {
   Router,
   TradeType,
   Trade as V2Trade,
-} from '@sushiswap/sdk'
+} from '@sushiswap/core-sdk'
 import { arrayify, hexlify, splitSignature } from '@ethersproject/bytes'
 import { isAddress, isZero } from '../functions/validate'
 import { useFactoryContract, useRouterContract } from './useContract'
@@ -123,7 +123,7 @@ export function useSwapCallArguments(
             allowedSlippage,
             recipient,
             ttl: deadline.toNumber(),
-            ethTip: CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.MAINNET), archerETHTip),
+            ethTip: CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.ETHEREUM), archerETHTip),
           })
         )
       }
@@ -524,7 +524,7 @@ export function useSwapCallback(
               const chainNames: {
                 [chainId in ChainId]?: string
               } = {
-                [ChainId.MAINNET]: 'mainnet',
+                [ChainId.ETHEREUM]: 'mainnet',
               }
               const chain = chainNames[chainId]
               if (!chain) throw new Error(`Unknown chain ID ${chainId} when building transaction`)

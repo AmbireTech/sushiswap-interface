@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Ether, Percent, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Ether, Percent, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
 import React, { useCallback, useMemo } from 'react'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,
@@ -88,10 +88,10 @@ export default function ConfirmSwapModal({
 
   const pendingText2 = minerBribe
     ? trade?.outputAmount.currency.isNative
-      ? `Minus ${CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.MAINNET), minerBribe).toSignificant(
+      ? `Minus ${CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.ETHEREUM), minerBribe).toSignificant(
           6
         )} ETH Miner Tip`
-      : `Plus ${CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.MAINNET), minerBribe).toSignificant(
+      : `Plus ${CurrencyAmount.fromRawAmount(Ether.onChain(ChainId.ETHEREUM), minerBribe).toSignificant(
           6
         )} ETH Miner Tip`
     : undefined

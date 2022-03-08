@@ -68,6 +68,7 @@
     "@sushiswap/core": "^2.0.0-canary.1",
     "@sushiswap/core-sdk": "1.0.0-canary.73",
     "@sushiswap/default-token-list": "24.19.0",
+    "@sushiswap/limit-order-sdk": "1.0.0-canary.63",
     "@sushiswap/limit-order-pair-list": "0.2.15",
     "@sushiswap/sdk": "5.0.0-canary.109",
     "@sushiswap/sushi-data": "^1.0.24",
