@@ -1,6 +1,6 @@
 import DEFAULT_TOKEN_LIST from '@sushiswap/default-token-list'
 import { TokenList } from '@uniswap/token-lists'
-import { UNSUPPORTED_LIST_URLS } from 'app/config/token-lists'
+import { UNSUPPORTED_LIST_URLS, WALLET_DEFAULT_TOKEN_LIST } from 'app/config/token-lists'
 import UNSUPPORTED_TOKEN_LIST from 'app/constants/token-lists/sushiswap-v2-unsupported.tokenlist.json'
 import { sortByListPriority } from 'app/functions/list'
 import { AppState } from 'app/state'
@@ -43,7 +43,13 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
   return map
 }
 
-const TRANSFORMED_DEFAULT_TOKEN_LIST = listToTokenMap(DEFAULT_TOKEN_LIST)
+const TRANSFORMED_SUSHI__DEFAULT_TOKEN_LIST = listToTokenMap(DEFAULT_TOKEN_LIST)
+const TRANSFORMED_WALLET_DEFAULT_TOKEN_LIST = listToTokenMap(WALLET_DEFAULT_TOKEN_LIST)
+
+const TRANSFORMED_DEFAULT_TOKEN_LIST = combineMaps(
+  TRANSFORMED_SUSHI__DEFAULT_TOKEN_LIST,
+  TRANSFORMED_WALLET_DEFAULT_TOKEN_LIST
+)
 
 export function useAllLists(): AppState['lists']['byUrl'] {
   return useAppSelector((state) => state.lists.byUrl)
