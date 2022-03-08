@@ -42,6 +42,17 @@ const explorers = {
         return `${link}/${type}/${data}`
     }
   },
+
+  moonbeam: (link: string, data: string, type: 'transaction' | 'token' | 'address' | 'block') => {
+    switch (type) {
+      case 'transaction':
+        return `${link}/tx/${data}`
+      case 'token':
+        return `${link}/tokens/${data}`
+      default:
+        return `${link}/${type}/${data}`
+    }
+  },
 }
 interface ChainObject {
   [chainId: number]: {
@@ -150,6 +161,10 @@ const chains: ChainObject = {
   [ChainId.MOONRIVER]: {
     link: 'https://blockscout.moonriver.moonbeam.network',
     builder: explorers.blockscout,
+  },
+  [ChainId.MOONBEAM]: {
+    link: 'https://moonbeam.moonscan.io',
+    builder: explorers.moonbeam,
   },
 }
 

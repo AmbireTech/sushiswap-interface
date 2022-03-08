@@ -47,6 +47,7 @@ export const NETWORK_ICON = {
   [ChainId.CELO]: Celo,
   [ChainId.PALM]: Palm,
   [ChainId.MOONRIVER]: Moonriver,
+  [ChainId.MOONBEAM]: Moonbeam,
 }
 
 export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
@@ -76,4 +77,5 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.CELO]: 'Celo',
   [ChainId.PALM]: 'Palm',
   [ChainId.MOONRIVER]: 'Moonriver',
+  [ChainId.MOONBEAM]: 'Moonbeam',
 }

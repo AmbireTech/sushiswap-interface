@@ -172,6 +172,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: ['https://rpc.moonriver.moonbeam.network'],
     blockExplorerUrls: ['https://blockscout.moonriver.moonbeam.network'],
   },
+  [ChainId.MOONBEAM]: {
+    chainId: '0x504',
+    chainName: 'Moonbeam',
+    nativeCurrency: {
+      name: 'Glimmer',
+      symbol: 'GLMR',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.api.moonbeam.network'],
+    blockExplorerUrls: ['https://moonbeam.moonscan.io'],
+  },
 }
 
 export default function NetworkModal(): JSX.Element | null {

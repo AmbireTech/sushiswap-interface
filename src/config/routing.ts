@@ -50,6 +50,7 @@ import {
   ADX,
   ADX_STAKING,
   ADX_LOYALTY,
+  MOONBEAM,
 } from '../config/tokens'
 // a list of tokens by chain
 import { ChainId, Currency, Token, WNATIVE } from '@sushiswap/sdk'
@@ -107,6 +108,7 @@ const WRAPPED_NATIVE_ONLY: ChainTokenList = {
   [ChainId.CELO]: [WNATIVE[ChainId.CELO]],
   [ChainId.PALM]: [WNATIVE[ChainId.PALM]],
   [ChainId.MOONRIVER]: [WNATIVE[ChainId.MOONRIVER]],
+  [ChainId.MOONBEAM]: [WNATIVE[ChainId.MOONBEAM]],
 }
 
 // used to construct intermediary pairs for trading
@@ -152,6 +154,14 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ],
   [ChainId.PALM]: [...WRAPPED_NATIVE_ONLY[ChainId.PALM], PALM.WETH, PALM.DAI],
   [ChainId.MOONRIVER]: [WNATIVE[ChainId.MOONRIVER]],
+  [ChainId.MOONBEAM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MOONBEAM],
+    MOONBEAM.USDC,
+    MOONBEAM.USDT,
+    MOONBEAM.UST,
+    MOONBEAM.WETH,
+    MOONBEAM.WBTC,
+  ],
 }
 
 export const ADDITIONAL_BASES: {
@@ -301,6 +311,14 @@ export const COMMON_BASES: ChainTokenList = {
   [ChainId.CELO]: [...WRAPPED_NATIVE_ONLY[ChainId.CELO], CELO.cETH, CELO.cUSD, CELO.cEURO, CELO.cBTC],
   [ChainId.MOONRIVER]: [...WRAPPED_NATIVE_ONLY[ChainId.MOONRIVER]],
   [ChainId.PALM]: [...WRAPPED_NATIVE_ONLY[ChainId.PALM], PALM.WETH, PALM.DAI],
+  [ChainId.MOONBEAM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MOONBEAM],
+    MOONBEAM.USDC,
+    MOONBEAM.USDT,
+    MOONBEAM.UST,
+    MOONBEAM.WETH,
+    MOONBEAM.WBTC,
+  ],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -346,6 +364,14 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ],
   [ChainId.MOONRIVER]: [...WRAPPED_NATIVE_ONLY[ChainId.MOONRIVER]],
   [ChainId.PALM]: [...WRAPPED_NATIVE_ONLY[ChainId.PALM], PALM.WETH, PALM.DAI],
+  [ChainId.MOONBEAM]: [
+    ...WRAPPED_NATIVE_ONLY[ChainId.MOONBEAM],
+    MOONBEAM.USDC,
+    MOONBEAM.USDT,
+    MOONBEAM.UST,
+    MOONBEAM.WETH,
+    MOONBEAM.WBTC,
+  ],
 }
 
 export const PINNED_PAIRS: {
