@@ -29,7 +29,7 @@ module.exports = {
           r: 'to right',
         },
         colors: {
-          'blue-pink': ['#0993ecBF', '#f338c3BF'],
+          'blue-pink': ['#6000FF', '#AF50FF'],
           'blue-pink-hover': ['#0993ec99', '#f338c399'],
           'pink-red-light-brown': ['#FE5A75', '#FEC464'],
         },
@@ -50,7 +50,7 @@ module.exports = {
       // use https://www.tailwindshades.com/ to generate shades
       colors: {
         purple: {
-          DEFAULT: '#A755DD',
+          DEFAULT: '#AF50FF',
           50: '#F6EEFC',
           100: '#EDDDF8',
           200: '#DCBBF1',
@@ -63,7 +63,7 @@ module.exports = {
           900: '#2E0E44',
         },
         blue: {
-          DEFAULT: '#0993EC',
+          DEFAULT: '#6000FF',
           50: '#B1DEFC',
           100: '#9DD6FB',
           200: '#76C6FA',
@@ -192,8 +192,8 @@ module.exports = {
       },
       borderRadius: {
         none: '0',
-        px: '1px',
-        DEFAULT: '0.625rem',
+        px: '0',
+        DEFAULT: '0',
       },
       boxShadow: {
         swap: '0px 50px 250px -47px rgba(39, 176, 230, 0.29)',

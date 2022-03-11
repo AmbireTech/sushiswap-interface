@@ -36,7 +36,7 @@ const SwapModalHeader: FC<SwapModalHeader> = ({
   return (
     <div className="grid gap-2">
       <div className="flex flex-col">
-        <HeadlessUiModal.BorderedContent className="bg-dark-1000/40 border !border-dark-800 rounded-2xl">
+        <HeadlessUiModal.BorderedContent className="bg-dark-1000/40 border !border-dark-800 ">
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
               <div className="flex flex-col gap-1">
@@ -115,7 +115,7 @@ const SwapModalHeader: FC<SwapModalHeader> = ({
           </div>
         </HeadlessUiModal.BorderedContent>
       )}
-      <div className="justify-start text-sm text-center text-secondary py-2">
+      <div className="justify-start py-2 text-sm text-center text-secondary">
         {trade?.tradeType === TradeType.EXACT_INPUT ? (
           <Typography variant="xs" className="text-secondary">
             {i18n._(t`Output is estimated. You will receive at least`)}{' '}

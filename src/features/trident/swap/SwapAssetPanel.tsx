@@ -50,7 +50,7 @@ const SwapAssetPanel = ({
   currencies,
 }: SwapAssetPanel) => {
   return (
-    <div className="rounded-[14px] border border-dark-700 hover:border-dark-600 bg-dark-900 p-3 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-3 border border-dark-700 hover:border-dark-600 bg-dark-900">
       {header({
         disabled,
         onChange,
