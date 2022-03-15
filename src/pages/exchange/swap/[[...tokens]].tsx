@@ -76,6 +76,10 @@ import { useUSDCValue } from '../../../hooks/useUSDCPrice'
 import { warningSeverity } from '../../../functions/prices'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../../config/networks'
 
+const UNSUPPORTED_NETWORKS_LABELS = {
+  [1284]: 'Moonbeam',
+}
+
 export default function Swap() {
   const { i18n } = useLingui()
 
@@ -104,7 +108,7 @@ export default function Swap() {
       return !Boolean(token.address in defaultTokens)
     })
 
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const toggleNetworkModal = useNetworkModalToggle()
 
@@ -444,8 +448,8 @@ export default function Swap() {
         <div className="flex items-center justify-center h-full flex-column">
           <div className="mb-2 text-2xl font-bold text-center">
             Unfortunately, SushiSwap does not support the{' '}
-            {library?.provider?.safe?.network
-              ? `${library.provider.safe.network.toUpperCase()} network`
+            {UNSUPPORTED_NETWORKS_LABELS[chainId]
+              ? `${UNSUPPORTED_NETWORKS_LABELS[chainId]} network`
               : `Chain ${chainId}`}{' '}
             yet. If you want to use SushiSwap, please change network to any of the supported ones.
           </div>
