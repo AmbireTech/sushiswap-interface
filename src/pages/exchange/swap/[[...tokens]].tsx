@@ -104,7 +104,7 @@ export default function Swap() {
       return !Boolean(token.address in defaultTokens)
     })
 
-  const { account, chainId, connector } = useActiveWeb3React()
+  const { account, chainId, library } = useActiveWeb3React()
 
   const toggleNetworkModal = useNetworkModalToggle()
 
@@ -444,8 +444,10 @@ export default function Swap() {
         <div className="flex items-center justify-center h-full flex-column">
           <div className="mb-2 text-2xl font-bold text-center">
             Unfortunately, SushiSwap does not support the{' '}
-            {connector?.safe?.network ? `${connector.safe.network.toUpperCase()} network` : `chain ${chainId}`} yet. If
-            you want to use SushiSwap, please change network to any of the supported ones.
+            {library?.provider?.safe?.network
+              ? `${library.provider.safe.network.toUpperCase()} network`
+              : `Chain ${chainId}`}{' '}
+            yet. If you want to use SushiSwap, please change network to any of the supported ones.
           </div>
         </div>
       </Container>
