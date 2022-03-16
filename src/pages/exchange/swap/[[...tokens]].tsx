@@ -39,6 +39,7 @@ import { AdvancedSwapDetails } from '../../../features/exchange-v1/swap/Advanced
 import AdvancedSwapDetailsDropdown from '../../../features/exchange-v1/swap/AdvancedSwapDetailsDropdown'
 import Alert from '../../../components/Alert'
 import { ArrowDownIcon } from '@heroicons/react/outline'
+import { AlertTriangle } from 'react-feather'
 import Button from '../../../components/Button'
 import ConfirmSwapModal from '../../../features/exchange-v1/swap/ConfirmSwapModal'
 import Container from '../../../components/Container'
@@ -447,6 +448,9 @@ export default function Swap() {
       <Container id="swap-page" className="h-full">
         <div className="flex items-center justify-center h-full flex-column">
           <div className="mb-2 text-2xl font-bold text-center">
+            <div className="flex justify-center mb-7">
+              <AlertTriangle size={69} />
+            </div>
             Unfortunately, SushiSwap does not support the{' '}
             {UNSUPPORTED_NETWORKS_LABELS[chainId]
               ? `${UNSUPPORTED_NETWORKS_LABELS[chainId]} network`
