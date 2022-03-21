@@ -28,13 +28,10 @@ import {
   useSushiPairs,
   useSushiPrice,
 } from 'app/services/graph'
-import { useActiveWeb3React } from 'app/services/web3'
 import toLower from 'lodash/toLower'
 import { useMemo } from 'react'
 
-export default function useFarmRewards() {
-  const { chainId } = useActiveWeb3React()
-
+export default function useFarmRewards({ chainId = ChainId.ETHEREUM }) {
   // @ts-ignore TYPE NEEDS FIXING
   const positions = usePositions(chainId)
 
@@ -177,14 +174,14 @@ export default function useFarmRewards() {
             pool.rewardToken.symbol === 'ALCX'
               ? pool.rewarder.rewardPerSecond / decimals
               : pool.rewardToken.symbol === 'LDO'
-              ? (77160493827160493 / decimals) * averageBlockTime
+              ? (19290123456790123 / decimals) * averageBlockTime
               : (pool.rewarder.rewardPerSecond / decimals) * averageBlockTime
 
           const rewardPerDay =
             pool.rewardToken.symbol === 'ALCX'
               ? (pool.rewarder.rewardPerSecond / decimals) * blocksPerDay
               : pool.rewardToken.symbol === 'LDO'
-              ? (77160493827160493 / decimals) * averageBlockTime * blocksPerDay
+              ? (19290123456790123 / decimals) * averageBlockTime * blocksPerDay
               : (pool.rewarder.rewardPerSecond / decimals) * averageBlockTime * blocksPerDay
 
           const rewardPrice = pool.rewardToken.derivedETH * ethPrice
