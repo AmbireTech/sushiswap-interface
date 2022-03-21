@@ -155,6 +155,7 @@ const Swap = ({ banners }) => {
   )
 
   const routeNotFound = !trade?.route
+  const loadingTradeData = !trade
 
   // check whether the user has approved the router on the input token
   const [approvalState, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
@@ -287,13 +288,13 @@ const Swap = ({ banners }) => {
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode
-  const showApproveFlow =
-    !isArgentWallet &&
-    !swapInputError &&
-    (approvalState === ApprovalState.NOT_APPROVED ||
-      approvalState === ApprovalState.PENDING ||
-      (approvalSubmitted && approvalState === ApprovalState.APPROVED)) &&
-    !(priceImpactSeverity > 3 && !isExpertMode)
+  const showApproveFlow = false
+  // !isArgentWallet &&
+  // !swapInputError &&
+  // (approvalState === ApprovalState.NOT_APPROVED ||
+  //   approvalState === ApprovalState.PENDING ||
+  //   (approvalSubmitted && approvalState === ApprovalState.APPROVED)) &&
+  // !(priceImpactSeverity > 3 && !isExpertMode)
 
   const handleConfirmDismiss = useCallback(() => {
     setSwapState({
@@ -387,7 +388,7 @@ const Swap = ({ banners }) => {
           <div className="z-0 flex justify-center -mt-6 -mb-6">
             <div
               role="button"
-              className="p-1.5 bg-dark-800 border shadow-md bg-gradient-to-r from-blue to-pink hover:border-dark-600"
+              className="p-1.5 bg-dark-800 border border-dark-700 shadow-md hover:border-dark-600"
               onClick={() => {
                 setApprovalSubmitted(false) // reset 2 step UI for approvals
                 onSwitchTokens()
@@ -406,7 +407,10 @@ const Swap = ({ banners }) => {
             priceImpact={priceImpact}
             priceImpactCss={priceImpactCss}
           />
-          {isExpertMode && <RecipientField recipient={recipient} action={setRecipient} />}
+          {
+            // isExpertMode &&
+            <RecipientField recipient={recipient} action={setRecipient} />
+          }
           {Boolean(trade) && (
             <SwapDetails
               inputCurrency={currencies[Field.INPUT]}
@@ -414,6 +418,12 @@ const Swap = ({ banners }) => {
               trade={trade}
               recipient={recipient ?? undefined}
             />
+          )}
+
+          {userHasSpecifiedInputOutput && loadingTradeData && (
+            <div style={{ textAlign: 'center' }}>
+              <div className="mb-1">{i18n._(t`Loading ...`)}</div>
+            </div>
           )}
 
           {trade && routeNotFound && userHasSpecifiedInputOutput && (
@@ -493,17 +503,17 @@ const Swap = ({ banners }) => {
               color={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'red' : 'gradient'}
               fullWidth
               onClick={() => {
-                if (isExpertMode) {
-                  handleSwap()
-                } else {
-                  setSwapState({
-                    tradeToConfirm: trade,
-                    attemptingTxn: false,
-                    swapErrorMessage: undefined,
-                    showConfirm: true,
-                    txHash: undefined,
-                  })
-                }
+                // if (isExpertMode) {
+                //   handleSwap()
+                // } else {
+                setSwapState({
+                  tradeToConfirm: trade,
+                  attemptingTxn: false,
+                  swapErrorMessage: undefined,
+                  showConfirm: true,
+                  txHash: undefined,
+                })
+                // }
               }}
               id="swap-button"
               disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}

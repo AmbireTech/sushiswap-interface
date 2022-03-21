@@ -1,9 +1,7 @@
-import { TransactionFactory } from '@ethereumjs/tx'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Signature } from '@ethersproject/bytes'
-import { arrayify, DataOptions, hexlify, splitSignature } from '@ethersproject/bytes'
 import { AddressZero } from '@ethersproject/constants'
 import { t } from '@lingui/macro'
 import {
@@ -33,17 +31,15 @@ import { Feature } from 'app/enums'
 import { approveMasterContractAction, batchAction, unwrapWETHAction } from 'app/features/trident/actions'
 import { featureEnabled } from 'app/functions'
 import approveAmountCalldata from 'app/functions/approveAmountCalldata'
-import { shortenAddress } from 'app/functions/format'
 import { calculateGasMargin } from 'app/functions/trade'
-import { isAddress, isZero } from 'app/functions/validate'
+import { isZero } from 'app/functions/validate'
 import { useBentoRebase } from 'app/hooks/useBentoRebases'
 import { useActiveWeb3React } from 'app/services/web3'
 import { USER_REJECTED_TX } from 'app/services/web3/WalletError'
 import { useBlockNumber } from 'app/state/application/hooks'
-import { TransactionResponseLight, useTransactionAdder } from 'app/state/transactions/hooks'
 import { useMemo } from 'react'
 
-import { OPENMEV_SUPPORTED_NETWORKS, OPENMEV_URI } from '../config/openmev'
+import { ApprovalState, useApproveTxEncodedData } from './useApproveCallback'
 import { useArgentWalletContract } from './useArgentWalletContract'
 import { useRouterContract, useTridentRouterContract } from './useContract'
 import useENS from './useENS'
@@ -523,6 +519,10 @@ export function swapErrorToUserReadableMessage(error: any): string {
   }
 }
 
+export async function timeout(ms = 690) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 // returns a function that will execute a swap, if the parameters are all valid
 // and the user has approved the slippage adjusted input amount for the trade
 export function useSwapCallback(
@@ -550,7 +550,9 @@ export function useSwapCallback(
 
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipient, signatureData, tridentTradeContext)
 
-  const addTransaction = useTransactionAdder()
+  // const addTransaction = useTransactionAdder()
+
+  const [approvalState, approveCallData] = useApproveTxEncodedData(trade?.inputAmount, account)
 
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {
@@ -651,141 +653,189 @@ export function useSwapCallback(
 
         console.log('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {})
 
-        const txParams: TransactionRequest = {
-          from: account,
-          to: address,
-          data: calldata,
-          // let the wallet try if we can't estimate the gas
-          ...('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {}),
-          // gasPrice: !eip1559 && chainId === ChainId.HARMONY ? BigNumber.from('2000000000') : undefined,
-          ...(value && !isZero(value) ? { value } : {}),
-        }
+        const approveCall = approveCallData()
 
-        let txResponse: Promise<TransactionResponseLight>
-        if (
-          !OPENMEV_SUPPORTED_NETWORKS.includes(chainId) ||
-          (OPENMEV_SUPPORTED_NETWORKS.includes(chainId) && !useOpenMev)
-        ) {
-          txResponse = library.getSigner().sendTransaction(txParams)
-        } else {
-          const supportedNetwork = OPENMEV_SUPPORTED_NETWORKS.includes(chainId)
-          if (!supportedNetwork) throw new Error(`Unsupported OpenMEV network id ${chainId} when building transaction`)
-
-          // @ts-ignore TYPE NEEDS FIXING
-          txResponse = library
-            .getSigner()
-            .populateTransaction({
-              type: eip1559 ? 2 : 0, // EIP1559, otherwise Legacy
-              ...txParams,
-            })
-            .then((fullTx) => {
-              const { type, chainId, nonce, gasLimit, maxFeePerGas, maxPriorityFeePerGas, to, value, data } = fullTx
-
-              const hOpts: DataOptions = { hexPad: 'left' }
-
-              const txToSign = TransactionFactory.fromTxData({
-                type: type ? hexlify(type) : undefined,
-                chainId: chainId ? hexlify(chainId) : undefined,
-                nonce: nonce ? hexlify(nonce, hOpts) : undefined,
-                gasLimit: gasLimit ? hexlify(gasLimit, hOpts) : undefined,
-                maxFeePerGas: maxFeePerGas ? hexlify(maxFeePerGas, hOpts) : undefined,
-                maxPriorityFeePerGas: maxPriorityFeePerGas ? hexlify(maxPriorityFeePerGas, hOpts) : undefined,
-                to,
-                value: value ? hexlify(value, hOpts) : undefined,
-                data: data?.toString(),
-              })
-
-              // @ts-ignore TYPE NEEDS FIXING
-              return library.provider
-                .request({ method: 'eth_sign', params: [account, hexlify(txToSign.getMessageToSign())] })
-                .then((signature) => {
-                  const { v, r, s } = splitSignature(signature)
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  const txWithSignature: TypedTransaction = txToSign._processSignature(v, arrayify(r), arrayify(s))
-                  return { signedTx: hexlify(txWithSignature.serialize()), fullTx }
-                })
-            })
-            .then(({ signedTx }) => {
-              const body = JSON.stringify({
-                jsonrpc: '2.0',
-                id: new Date().getTime(),
-                method: 'eth_sendRawTransaction',
-                params: [signedTx],
-              })
-
-              // @ts-ignore TYPE NEEDS FIXING
-              return fetch(OPENMEV_URI[chainId], {
-                method: 'POST',
-                body,
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              }).then((res: Response) => {
-                // Handle success
-                if (res.status === 200) {
-                  return res.json().then((json) => {
-                    // But first check if there are some errors present and throw accordingly
-                    if (json.error) throw json.error
-
-                    // Otherwise return a TransactionResponseLight object
-                    return { hash: json.result } as TransactionResponseLight
-                  })
+        const multiCallParams: Array<TransactionRequest> = [
+          ...[
+            approvalState !== ApprovalState.APPROVED && approveCall?.data && approveCall?.address
+              ? {
+                  from: account,
+                  to: approveCall?.address,
+                  data: approveCall?.data,
                 }
+              : {},
+          ],
+          {
+            from: account,
+            to: address,
+            data: calldata,
+            // let the wallet try if we can't estimate the gas
+            ...('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {}),
+            // gasPrice: !eip1559 && chainId === ChainId.HARMONY ? BigNumber.from('2000000000') : undefined,
+            ...(value && !isZero(value) ? { value } : {}),
+          },
+        ]
 
-                // Generic error
-                if (res.status !== 200) throw Error(res.statusText)
-              })
-            })
+        // const txParams: TransactionRequest = {
+        //   from: account,
+        //   to: address,
+        //   data: calldata,
+        //   // let the wallet try if we can't estimate the gas
+        //   ...('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {}),
+        //   // gasPrice: !eip1559 && chainId === ChainId.HARMONY ? BigNumber.from('2000000000') : undefined,
+        //   ...(value && !isZero(value) ? { value } : {}),
+        // }
+
+        try {
+          for (let index = 0; index < multiCallParams.length; index++) {
+            const txParams = multiCallParams[index]
+            if (!!txParams.data) {
+              library.getSigner().sendTransaction(txParams)
+              if (index === 0) {
+                // NOTE: quick hax to make sure the approve txn go first to the wallet
+                await timeout(690)
+              }
+            }
+          }
+
+          return 'Transaction/s sent!'
+        } catch (error) {
+          // if the user rejected the tx, pass this along
+          if (error?.code === USER_REJECTED_TX) {
+            throw new Error('Transaction rejected.')
+          } else {
+            // otherwise, the error was unexpected and we need to convey that
+            console.error(`Swap failed`, error, address, calldata, value)
+
+            throw new Error(`Swap failed: ${swapErrorToUserReadableMessage(error)}`)
+          }
         }
 
-        return txResponse
-          .then((response: TransactionResponseLight) => {
-            let base = `Swap ${trade?.inputAmount?.toSignificant(4)} ${
-              trade?.inputAmount.currency?.symbol
-            } for ${trade?.outputAmount?.toSignificant(4)} ${trade?.outputAmount.currency?.symbol}`
-            if (tridentTradeContext?.parsedAmounts) {
-              base = `Swap ${tridentTradeContext?.parsedAmounts[0]?.toSignificant(4)} ${
-                // @ts-ignore TYPE NEEDS FIXING
-                tridentTradeContext?.parsedAmounts[0].currency?.symbol
-              } for ${tridentTradeContext?.parsedAmounts[1]?.toSignificant(4)} ${
-                // @ts-ignore TYPE NEEDS FIXING
-                tridentTradeContext?.parsedAmounts[1].currency?.symbol
-              }`
-            }
+        // let txResponse: Promise<TransactionResponseLight>
+        // if (
+        //   !OPENMEV_SUPPORTED_NETWORKS.includes(chainId) ||
+        //   (OPENMEV_SUPPORTED_NETWORKS.includes(chainId) && !useOpenMev)
+        // ) {
+        //   txResponse = library.getSigner().sendTransaction(txParams)
+        // } else {
+        //   const supportedNetwork = OPENMEV_SUPPORTED_NETWORKS.includes(chainId)
+        //   if (!supportedNetwork) throw new Error(`Unsupported OpenMEV network id ${chainId} when building transaction`)
 
-            if (tridentTradeContext?.bentoPermit && tridentTradeContext?.resetBentoPermit) {
-              tridentTradeContext.resetBentoPermit()
-            }
+        //   // @ts-ignore TYPE NEEDS FIXING
+        //   txResponse = library
+        //     .getSigner()
+        //     .populateTransaction({
+        //       type: eip1559 ? 2 : 0, // EIP1559, otherwise Legacy
+        //       ...txParams,
+        //     })
+        //     .then((fullTx) => {
+        //       const { type, chainId, nonce, gasLimit, maxFeePerGas, maxPriorityFeePerGas, to, value, data } = fullTx
 
-            const withRecipient =
-              recipient === account
-                ? base
-                : `${base} to ${
-                    recipientAddressOrName && isAddress(recipientAddressOrName)
-                      ? shortenAddress(recipientAddressOrName)
-                      : recipientAddressOrName
-                  }`
+        //       const hOpts: DataOptions = { hexPad: 'left' }
 
-            addTransaction(response, {
-              summary: withRecipient,
-            })
+        //       const txToSign = TransactionFactory.fromTxData({
+        //         type: type ? hexlify(type) : undefined,
+        //         chainId: chainId ? hexlify(chainId) : undefined,
+        //         nonce: nonce ? hexlify(nonce, hOpts) : undefined,
+        //         gasLimit: gasLimit ? hexlify(gasLimit, hOpts) : undefined,
+        //         maxFeePerGas: maxFeePerGas ? hexlify(maxFeePerGas, hOpts) : undefined,
+        //         maxPriorityFeePerGas: maxPriorityFeePerGas ? hexlify(maxPriorityFeePerGas, hOpts) : undefined,
+        //         to,
+        //         value: value ? hexlify(value, hOpts) : undefined,
+        //         data: data?.toString(),
+        //       })
 
-            return response.hash
-          })
-          .catch((error) => {
-            // if the user rejected the tx, pass this along
-            if (error?.code === USER_REJECTED_TX) {
-              throw new Error('Transaction rejected.')
-            } else {
-              // otherwise, the error was unexpected and we need to convey that
-              console.error(`Swap failed`, error, address, calldata, value)
+        //       // @ts-ignore TYPE NEEDS FIXING
+        //       return library.provider
+        //         .request({ method: 'eth_sign', params: [account, hexlify(txToSign.getMessageToSign())] })
+        //         .then((signature) => {
+        //           const { v, r, s } = splitSignature(signature)
+        //           // eslint-disable-next-line
+        //           // @ts-ignore
+        //           const txWithSignature: TypedTransaction = txToSign._processSignature(v, arrayify(r), arrayify(s))
+        //           return { signedTx: hexlify(txWithSignature.serialize()), fullTx }
+        //         })
+        //     })
+        //     .then(({ signedTx }) => {
+        //       const body = JSON.stringify({
+        //         jsonrpc: '2.0',
+        //         id: new Date().getTime(),
+        //         method: 'eth_sendRawTransaction',
+        //         params: [signedTx],
+        //       })
 
-              throw new Error(`Swap failed: ${swapErrorToUserReadableMessage(error)}`)
-            }
-          })
+        //       // @ts-ignore TYPE NEEDS FIXING
+        //       return fetch(OPENMEV_URI[chainId], {
+        //         method: 'POST',
+        //         body,
+        //         headers: {
+        //           'Content-Type': 'application/json',
+        //         },
+        //       }).then((res: Response) => {
+        //         // Handle success
+        //         if (res.status === 200) {
+        //           return res.json().then((json) => {
+        //             // But first check if there are some errors present and throw accordingly
+        //             if (json.error) throw json.error
+
+        //             // Otherwise return a TransactionResponseLight object
+        //             return { hash: json.result } as TransactionResponseLight
+        //           })
+        //         }
+
+        //         // Generic error
+        //         if (res.status !== 200) throw Error(res.statusText)
+        //       })
+        //     })
+        // }
+
+        // return txResponse
+        //   .then((response: TransactionResponseLight) => {
+        //     let base = `Swap ${trade?.inputAmount?.toSignificant(4)} ${
+        //       trade?.inputAmount.currency?.symbol
+        //     } for ${trade?.outputAmount?.toSignificant(4)} ${trade?.outputAmount.currency?.symbol}`
+        //     if (tridentTradeContext?.parsedAmounts) {
+        //       base = `Swap ${tridentTradeContext?.parsedAmounts[0]?.toSignificant(4)} ${
+        //         // @ts-ignore TYPE NEEDS FIXING
+        //         tridentTradeContext?.parsedAmounts[0].currency?.symbol
+        //       } for ${tridentTradeContext?.parsedAmounts[1]?.toSignificant(4)} ${
+        //         // @ts-ignore TYPE NEEDS FIXING
+        //         tridentTradeContext?.parsedAmounts[1].currency?.symbol
+        //       }`
+        //     }
+
+        //     if (tridentTradeContext?.bentoPermit && tridentTradeContext?.resetBentoPermit) {
+        //       tridentTradeContext.resetBentoPermit()
+        //     }
+
+        //     const withRecipient =
+        //       recipient === account
+        //         ? base
+        //         : `${base} to ${
+        //             recipientAddressOrName && isAddress(recipientAddressOrName)
+        //               ? shortenAddress(recipientAddressOrName)
+        //               : recipientAddressOrName
+        //           }`
+
+        //     addTransaction(response, {
+        //       summary: withRecipient,
+        //     })
+
+        //     return response.hash
+        //   })
+        //   .catch((error) => {
+        //     // if the user rejected the tx, pass this along
+        //     if (error?.code === USER_REJECTED_TX) {
+        //       throw new Error('Transaction rejected.')
+        //     } else {
+        //       // otherwise, the error was unexpected and we need to convey that
+        //       console.error(`Swap failed`, error, address, calldata, value)
+
+        //       throw new Error(`Swap failed: ${swapErrorToUserReadableMessage(error)}`)
+        //     }
+        //   })
       },
       error: null,
     }
-  }, [trade, library, account, chainId, recipient, recipientAddressOrName, swapCalls, eip1559, addTransaction])
+  }, [trade, library, account, chainId, recipient, recipientAddressOrName, swapCalls, approveCallData, approvalState])
 }

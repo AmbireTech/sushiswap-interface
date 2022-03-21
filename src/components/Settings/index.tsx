@@ -57,11 +57,7 @@ const SettingsTab: FC<SettingsTabProps> = ({ placeholderSlippage, className, tri
                   <Typography variant="xs" className="text-high-emphesis" weight={700}>
                     {i18n._(t`Toggle expert mode`)}
                   </Typography>
-                  <QuestionHelper
-                    text={i18n._(
-                      t`Bypasses confirmation modals and allows high slippage trades. Use at your own risk.`
-                    )}
-                  />
+                  <QuestionHelper text={i18n._(t`Allows high slippage trades. Use at your own risk.`)} />
                 </div>
                 <Switch
                   size="sm"
@@ -140,8 +136,7 @@ const SettingsTab: FC<SettingsTabProps> = ({ placeholderSlippage, className, tri
               {i18n._(t`Only use this mode if you know what you are doing.`)}
             </Typography>
             <Typography variant="sm" weight={700} className="text-yellow">
-              {i18n._(t`Expert mode turns off the confirm transaction prompt and allows high slippage trades
-                                that often result in bad rates and lost funds.`)}
+              {i18n._(t`Expert mode allows high slippage trades that often result in bad rates and lost funds.`)}
             </Typography>
           </HeadlessUiModal.BorderedContent>
           <Button
