@@ -446,18 +446,32 @@ export default function Swap() {
   if (!NETWORK_LABEL[chainId]) {
     return (
       <Container id="swap-page" className="h-full">
-        <div className="flex items-center justify-center h-full flex-column">
-          <div className="mb-2 text-2xl font-bold text-center">
-            <div className="flex justify-center mb-7">
-              <AlertTriangle size={69} />
+        <div className="flex flex-col items-start justify-center h-full">
+          <div className="mb-2 text-2xl font-bold text-left">
+            <div className="flex justify-start mb-7">
+              <AlertTriangle className="text-ambire-purple" size={69} />
             </div>
-            Unfortunately, SushiSwap does not support the{' '}
+            Unfortunately, dashboard Swap is not supported on{' '}
             {UNSUPPORTED_NETWORKS_LABELS[chainId]
               ? `${UNSUPPORTED_NETWORKS_LABELS[chainId]} network`
               : `Chain ${chainId}`}{' '}
-            yet. If you want to use SushiSwap, please change network to any of the supported ones.
+            network yet. If you want to swap funds:
+          </div>
+          <div className="mb-1 text-xl">
+            Change network to any of the supported ones or go to
+            <a
+              href="https://app.sushi.com/en/swap"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-ambire-purple"
+            >
+              {' '}
+              sushi.com{' '}
+            </a>
+            and connect Ambire Wallet on Moonbeam via WalletConnect.
           </div>
         </div>
+        <div></div>
       </Container>
     )
   }
