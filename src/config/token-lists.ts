@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/core-sdk'
+import { Token } from '@sushiswap/core-sdk'
 
 import { ADX, ADX_LOYALTY, ADX_STAKING, CUSTOM_LOGOS, WALLET, xWALLET } from './tokens/wallet'
 
@@ -51,15 +51,15 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
 // default lists to be 'active' aka searched across
 export const DEFAULT_ACTIVE_LIST_URLS: string[] = [NFTX_LIST, YEARN_LIST, GEMINI_LIST]
 
-function tokenToTokenListItem(token, chainId) {
-  if (token[chainId]) {
+function tokenToTokenListItem(token: Token) {
+  if (token.chainId) {
     return {
-      address: token[chainId].address,
-      chainId: chainId,
-      name: token[chainId].name,
-      symbol: token[chainId].symbol,
-      decimals: token[chainId].decimals,
-      logoURI: CUSTOM_LOGOS[chainId]?.[token[chainId]?.address],
+      address: token.address,
+      chainId: token.chainId,
+      name: token.name,
+      symbol: token.symbol,
+      decimals: token.decimals,
+      logoURI: CUSTOM_LOGOS[token.chainId]?.[token.address],
     }
   } else {
     return undefined
@@ -68,21 +68,20 @@ function tokenToTokenListItem(token, chainId) {
 
 export const WALLET_DEFAULT_TOKEN_LIST = {
   name: 'Ambire Wallet Menu',
-  timestamp: '2022-03-20T04:20:42.690Z',
+  timestamp: '2022-03-20T04:21:42.690Z',
   version: {
     major: 1,
     minor: 2,
-    patch: 0,
+    patch: 1,
   },
   tags: {},
   logoURI: 'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',
   keywords: ['ambirewallet', 'default'],
   tokens: [
-    tokenToTokenListItem(WALLET, ChainId.ETHEREUM),
-    tokenToTokenListItem(xWALLET, ChainId.ETHEREUM),
-    tokenToTokenListItem(ADX_LOYALTY, ChainId.ETHEREUM),
-    tokenToTokenListItem(ADX, ChainId.ETHEREUM),
-    tokenToTokenListItem(ADX_STAKING, ChainId.ETHEREUM),
-    tokenToTokenListItem(ADX, ChainId.BSC),
+    ...Object.values(WALLET),
+    ...Object.values(xWALLET),
+    ...Object.values(ADX),
+    ...Object.values(ADX_STAKING),
+    ...Object.values(ADX_LOYALTY),
   ],
 }
