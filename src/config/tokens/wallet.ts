@@ -51,7 +51,8 @@ export const ADX_LOYALTY: ChainTokenMap = {
   ),
 }
 
-export const CUSTOM_LOGOS = {
+// TODO: type
+export const CUSTOM_LOGOS: any = {
   [ChainId.ETHEREUM]: {
     [WALLET[ChainId.ETHEREUM].address]:
       'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',

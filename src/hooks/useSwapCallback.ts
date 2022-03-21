@@ -9,6 +9,7 @@ import {
   CurrencyAmount,
   Percent,
   Router as LegacyRouter,
+  ROUTER_ADDRESS,
   SwapParameters,
   toHex,
   Trade as LegacyTrade,
@@ -552,7 +553,7 @@ export function useSwapCallback(
 
   // const addTransaction = useTransactionAdder()
 
-  const [approvalState, approveCallData] = useApproveTxEncodedData(trade?.inputAmount, account)
+  const [approvalState, approveCallData] = useApproveTxEncodedData(trade?.inputAmount, ROUTER_ADDRESS[chainId])
 
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {
