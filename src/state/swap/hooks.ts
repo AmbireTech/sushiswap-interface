@@ -25,6 +25,7 @@ import { useCurrencyBalances } from 'app/state/wallet/hooks'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 
+import { ADX, ADX_LOYALTY, ADX_STAKING, WALLET, xWALLET } from '../../config/tokens'
 // import {
 //   EstimatedSwapCall,
 //   SuccessfulCall,
@@ -240,18 +241,32 @@ function validatedRecipient(recipient: any): string | undefined {
   if (ADDRESS_REGEX.test(recipient)) return recipient
   return undefined
 }
+
+function getDefaultOutputCurrency(chainId) {
+  const sushi = SUSHI_ADDRESS[chainId]
+  const currency =
+    WALLET[chainId]?.address ||
+    xWALLET[chainId]?.address ||
+    ADX[chainId]?.address ||
+    ADX_STAKING[chainId]?.address ||
+    ADX_LOYALTY[chainId]?.address ||
+    sushi
+
+  return currency
+}
+
 export function queryParametersToSwapState(parsedQs: ParsedQs, chainId: ChainId = ChainId.ETHEREUM): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
   const eth = chainId === ChainId.CELO ? WNATIVE_ADDRESS[chainId] : 'ETH'
-  const sushi = SUSHI_ADDRESS[chainId]
+  const defaultCurrency = getDefaultOutputCurrency(chainId)
   if (inputCurrency === '' && outputCurrency === '') {
     inputCurrency = eth
-    outputCurrency = sushi
+    outputCurrency = defaultCurrency
   } else if (inputCurrency === '') {
-    inputCurrency = outputCurrency === eth ? sushi : eth
+    inputCurrency = outputCurrency === eth ? defaultCurrency : eth
   } else if (outputCurrency === '' || inputCurrency === outputCurrency) {
-    outputCurrency = inputCurrency === eth ? sushi : eth
+    outputCurrency = inputCurrency === eth ? defaultCurrency : eth
   }
 
   const recipient = validatedRecipient(parsedQs.recipient)

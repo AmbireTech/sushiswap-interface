@@ -63,7 +63,7 @@ const SwapModalHeader: FC<SwapModalHeader> = ({
           </div>
         </HeadlessUiModal.BorderedContent>
         <div className="flex justify-center -mt-3 -mb-3">
-          <div className="border-2 border-dark-800 shadow-md rounded-full p-1 backdrop-blur-[20px] z-10">
+          <div className="border-2 border-dark-800 shadow-md p-1 backdrop-blur-[20px] z-10">
             <ArrowDown size={18} />
           </div>
         </div>

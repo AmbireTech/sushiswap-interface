@@ -387,7 +387,7 @@ const Swap = ({ banners }) => {
           <div className="z-0 flex justify-center -mt-6 -mb-6">
             <div
               role="button"
-              className="p-1.5 rounded-full bg-dark-800 border shadow-md border-dark-700 hover:border-dark-600"
+              className="p-1.5 bg-dark-800 border shadow-md bg-gradient-to-r from-blue to-pink hover:border-dark-600"
               onClick={() => {
                 setApprovalSubmitted(false) // reset 2 step UI for approvals
                 onSwitchTokens()
@@ -478,7 +478,7 @@ const Swap = ({ banners }) => {
                   disabled={
                     !isValid || approvalState !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
                   }
-                  className="rounded-2xl md:rounded"
+                  className="rounded-2xl"
                 >
                   {priceImpactSeverity > 3 && !isExpertMode
                     ? i18n._(t`Price Impact High`)
@@ -507,7 +507,7 @@ const Swap = ({ banners }) => {
               }}
               id="swap-button"
               disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
-              className="rounded-2xl md:rounded"
+              // className="rounded-2xl"
             >
               {swapInputError
                 ? swapInputError

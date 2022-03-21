@@ -3,6 +3,7 @@ import useHttpLocations from 'app/hooks/useHttpLocations'
 import { WrappedTokenInfo } from 'app/state/lists/wrappedTokenInfo'
 import React, { FunctionComponent, useMemo } from 'react'
 
+import { CUSTOM_LOGOS } from '../../config/tokens'
 import Logo, { UNKNOWN_ICON } from '../Logo'
 
 const BLOCKCHAIN = {
@@ -29,6 +30,10 @@ const BLOCKCHAIN = {
 // @ts-ignore TYPE NEEDS FIXING
 export const getCurrencyLogoUrls = (currency: Currency): string[] => {
   const urls: string[] = []
+
+  if (CUSTOM_LOGOS[currency.chainId]?.[currency.wrapped.address]) {
+    urls.push(CUSTOM_LOGOS[currency.chainId][currency.wrapped.address])
+  }
 
   if (currency.chainId in BLOCKCHAIN) {
     urls.push(

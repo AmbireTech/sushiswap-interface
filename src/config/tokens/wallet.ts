@@ -62,4 +62,7 @@ export const CUSTOM_LOGOS = {
     [ADX_LOYALTY[ChainId.ETHEREUM].address]:
       'https://raw.githubusercontent.com/AmbireTech/adex-brand/master/logos/ADX-loyalty%40256x256.png',
   },
+  [ChainId.BSC]: {
+    [ADX[ChainId.BSC].address]: 'https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto',
+  },
 }

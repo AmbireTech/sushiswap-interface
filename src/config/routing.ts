@@ -16,6 +16,7 @@ import * as MOONRIVER from './tokens/moonriver'
 import * as OKEX from './tokens/okex'
 import * as PALM from './tokens/palm'
 import * as TELOS from './tokens/telos'
+import * as WALLET from './tokens/wallet'
 import * as XDAI from './tokens/xdai'
 
 type ChainTokenList = {
@@ -318,6 +319,16 @@ export const COMMON_BASES: ChainTokenList = {
     // @ts-ignore TYPE NEEDS FIXING
     ...WRAPPED_NATIVE_ONLY[ChainId.ETHEREUM],
     // @ts-ignore TYPE NEEDS FIXING
+    WALLET.WALLET[ChainId.ETHEREUM],
+    // @ts-ignore TYPE NEEDS FIXING
+    WALLET.xWALLET[ChainId.ETHEREUM],
+    // @ts-ignore TYPE NEEDS FIXING
+    WALLET.ADX[ChainId.ETHEREUM],
+    // @ts-ignore TYPE NEEDS FIXING
+    WALLET.ADX_LOYALTY[ChainId.ETHEREUM],
+    // @ts-ignore TYPE NEEDS FIXING
+    WALLET.ADX_STAKING[ChainId.ETHEREUM],
+    // @ts-ignore TYPE NEEDS FIXING
     SUSHI[ChainId.ETHEREUM],
     // @ts-ignore TYPE NEEDS FIXING
     ETHEREUM.WBTC,
@@ -415,6 +426,8 @@ export const COMMON_BASES: ChainTokenList = {
     BSC.FRAX,
     // @ts-ignore TYPE NEEDS FIXING
     BSC.STG,
+    // @ts-ignore TYPE NEEDS FIXING
+    WALLET.ADX[ChainId.ETHEREUM],
   ],
   [ChainId.ARBITRUM]: [
     // @ts-ignore TYPE NEEDS FIXING

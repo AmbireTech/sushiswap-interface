@@ -10,20 +10,18 @@ import Portals from 'app/components/Portals'
 import Web3ReactManager from 'app/components/Web3ReactManager'
 import { MultichainExploitAlertModal } from 'app/features/user/MultichainExploitAlertModal'
 import getLibrary from 'app/functions/getLibrary'
-import { exception, GOOGLE_ANALYTICS_TRACKING_ID, pageview } from 'app/functions/gtag'
+import { exception, pageview } from 'app/functions/gtag'
 import DefaultLayout from 'app/layouts/Default'
 // @ts-ignore TYPE NEEDS FIXING
 import store, { persistor } from 'app/state'
 import ApplicationUpdater from 'app/state/application/updater'
 import ListsUpdater from 'app/state/lists/updater'
 import MulticallUpdater from 'app/state/multicall/updater'
-import TransactionUpdater from 'app/state/transactions/updater'
 import UserUpdater from 'app/state/user/updater'
 import * as plurals from 'make-plural/plurals'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Script from 'next/script'
 import { DefaultSeo } from 'next-seo'
 import React, { Fragment, useEffect } from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
@@ -106,18 +104,18 @@ function MyApp({ Component, pageProps, fallback, err }) {
 
   return (
     <>
-      <Head>Sushi</Head>
+      <Head>Ambire Swap</Head>
       <meta
         name="viewport"
         content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
       />
 
       {/* Global Site Tag (gtag.js) - Google Analytics */}
-      <Script
+      {/* <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_TRACKING_ID}`}
-      />
-      <Script
+      /> */}
+      {/* <Script
         id="gtag-init"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -130,7 +128,7 @@ function MyApp({ Component, pageProps, fallback, err }) {
             });
           `,
         }}
-      />
+      /> */}
       <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
         <Web3ReactProvider getLibrary={getLibrary}>
           <Web3ProviderNetwork getLibrary={getLibrary}>
@@ -142,7 +140,7 @@ function MyApp({ Component, pageProps, fallback, err }) {
                     <UserUpdater />
                     <ApplicationUpdater />
                     <MulticallUpdater />
-                    <TransactionUpdater />
+                    {/* <TransactionUpdater /> */}
                   </>
                   <Provider>
                     <Layout>

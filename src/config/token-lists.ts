@@ -1,6 +1,6 @@
 import { ChainId } from '@sushiswap/core-sdk'
 
-import { ADX_LOYALTY, ADX_STAKING, CUSTOM_LOGOS, WALLET, xWALLET } from './tokens/wallet'
+import { ADX, ADX_LOYALTY, ADX_STAKING, CUSTOM_LOGOS, WALLET, xWALLET } from './tokens/wallet'
 
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
 
@@ -62,16 +62,16 @@ function tokenToTokenListItem(token, chainId) {
       logoURI: CUSTOM_LOGOS[chainId]?.[token[chainId]?.address],
     }
   } else {
-    return null
+    return undefined
   }
 }
 
 export const WALLET_DEFAULT_TOKEN_LIST = {
   name: 'Ambire Wallet Menu',
-  timestamp: '2022-02-22T04:20:42.690Z',
+  timestamp: '2022-03-20T04:20:42.690Z',
   version: {
     major: 1,
-    minor: 1,
+    minor: 2,
     patch: 0,
   },
   tags: {},
@@ -81,6 +81,8 @@ export const WALLET_DEFAULT_TOKEN_LIST = {
     tokenToTokenListItem(WALLET, ChainId.ETHEREUM),
     tokenToTokenListItem(xWALLET, ChainId.ETHEREUM),
     tokenToTokenListItem(ADX_LOYALTY, ChainId.ETHEREUM),
+    tokenToTokenListItem(ADX, ChainId.ETHEREUM),
     tokenToTokenListItem(ADX_STAKING, ChainId.ETHEREUM),
+    tokenToTokenListItem(ADX, ChainId.BSC),
   ],
 }
