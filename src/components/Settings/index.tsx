@@ -17,8 +17,6 @@ import { useToggleSettingsMenu } from 'app/state/application/hooks'
 import { useExpertModeManager, useUserOpenMev, useUserSingleHopOnly } from 'app/state/user/hooks'
 import React, { FC, useState } from 'react'
 
-import { OPENMEV_ENABLED, OPENMEV_SUPPORTED_NETWORKS } from '../../config/openmev'
-
 interface SettingsTabProps {
   placeholderSlippage?: Percent
   trident?: boolean
@@ -99,7 +97,7 @@ const SettingsTab: FC<SettingsTabProps> = ({ placeholderSlippage, className, tri
                 </div>
               )}
               {/*@ts-ignore TYPE NEEDS FIXING*/}
-              {OPENMEV_ENABLED && OPENMEV_SUPPORTED_NETWORKS.includes(chainId) && walletSupportsOpenMev && (
+              {/* {OPENMEV_ENABLED && OPENMEV_SUPPORTED_NETWORKS.includes(chainId) && walletSupportsOpenMev && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <Typography variant="xs" className="text-high-emphesis" weight={700}>
@@ -117,7 +115,7 @@ const SettingsTab: FC<SettingsTabProps> = ({ placeholderSlippage, className, tri
                     color="gradient"
                   />
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         }

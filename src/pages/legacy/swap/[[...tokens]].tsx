@@ -426,7 +426,7 @@ const Swap = ({ banners }) => {
             </div>
           )}
 
-          {trade && routeNotFound && userHasSpecifiedInputOutput && (
+          {singleHopOnly && routeNotFound && userHasSpecifiedInputOutput && (
             <Typography variant="xs" className="py-2 text-center">
               {i18n._(t`Insufficient liquidity for this trade.`)}{' '}
               {singleHopOnly && i18n._(t`Try enabling multi-hop trades`)}
