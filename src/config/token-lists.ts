@@ -1,4 +1,5 @@
 import { Token } from '@sushiswap/core-sdk'
+import { TokenInfo } from '@uniswap/token-lists'
 
 import { ADX, ADX_LOYALTY, ADX_STAKING, CUSTOM_LOGOS, WALLET, xWALLET } from './tokens/wallet'
 
@@ -78,10 +79,10 @@ export const WALLET_DEFAULT_TOKEN_LIST = {
   logoURI: 'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',
   keywords: ['ambirewallet', 'default'],
   tokens: [
-    ...Object.values(WALLET),
-    ...Object.values(xWALLET),
-    ...Object.values(ADX),
-    ...Object.values(ADX_STAKING),
-    ...Object.values(ADX_LOYALTY),
+    ...Object.values(WALLET).map((x) => x as TokenInfo),
+    ...Object.values(xWALLET).map((x) => x as TokenInfo),
+    ...Object.values(ADX).map((x) => x as TokenInfo),
+    ...Object.values(ADX_STAKING).map((x) => x as TokenInfo),
+    ...Object.values(ADX_LOYALTY).map((x) => x as TokenInfo),
   ],
 }

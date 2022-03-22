@@ -51,19 +51,22 @@ export const ADX_LOYALTY: ChainTokenMap = {
   ),
 }
 
-// TODO: type
-export const CUSTOM_LOGOS: any = {
+interface Logos {
+  [key: string | number | ChainId]: string | any | undefined | unknown
+}
+
+export const CUSTOM_LOGOS: Logos = {
   [ChainId.ETHEREUM]: {
-    [WALLET[ChainId.ETHEREUM].address]:
+    [WALLET[ChainId.ETHEREUM]?.address || 'default']:
       'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/Ambire_logo_250x250.png',
-    [xWALLET[ChainId.ETHEREUM].address]:
+    [xWALLET[ChainId.ETHEREUM]?.address || 'default']:
       'https://raw.githubusercontent.com/AmbireTech/ambire-brand/main/logos/xwallet_250x250.png',
-    [ADX_STAKING[ChainId.ETHEREUM].address]:
+    [ADX_STAKING[ChainId.ETHEREUM]?.address || 'default']:
       'https://raw.githubusercontent.com/AmbireTech/adex-brand/master/logos/vaporwave-adex-2.png',
-    [ADX_LOYALTY[ChainId.ETHEREUM].address]:
+    [ADX_LOYALTY[ChainId.ETHEREUM]?.address || 'default']:
       'https://raw.githubusercontent.com/AmbireTech/adex-brand/master/logos/ADX-loyalty%40256x256.png',
   },
   [ChainId.BSC]: {
-    [ADX[ChainId.BSC].address]: 'https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto',
+    [ADX[ChainId.BSC]?.address || 'default']: 'https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto',
   },
 }

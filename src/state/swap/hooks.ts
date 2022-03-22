@@ -242,7 +242,7 @@ function validatedRecipient(recipient: any): string | undefined {
   return undefined
 }
 
-function getDefaultOutputCurrency(chainId) {
+function getDefaultOutputCurrency(chainId: ChainId): string {
   const sushi = SUSHI_ADDRESS[chainId]
   const currency =
     WALLET[chainId]?.address ||
@@ -250,7 +250,8 @@ function getDefaultOutputCurrency(chainId) {
     ADX[chainId]?.address ||
     ADX_STAKING[chainId]?.address ||
     ADX_LOYALTY[chainId]?.address ||
-    sushi
+    sushi ||
+    ''
 
   return currency
 }

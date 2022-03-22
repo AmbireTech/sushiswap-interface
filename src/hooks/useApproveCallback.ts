@@ -119,7 +119,7 @@ interface ApproveCall {
 export function useApproveTxEncodedData(
   amountToApprove?: CurrencyAmount<Currency>,
   spender?: string
-): [ApprovalState, () => ApproveCall] {
+): [ApprovalState, () => ApproveCall | undefined] {
   const { account } = useActiveWeb3React()
   const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
@@ -143,7 +143,7 @@ export function useApproveTxEncodedData(
   const tokenContract = useTokenContract(token?.address)
   // const addTransaction = useTransactionAdder()
 
-  const approveEncodedTxData = useCallback((): ApproveCall => {
+  const approveEncodedTxData = useCallback((): ApproveCall | undefined => {
     if (approvalState !== ApprovalState.NOT_APPROVED) {
       console.error('approve was called unnecessarily')
       return
