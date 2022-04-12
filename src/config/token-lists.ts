@@ -80,7 +80,7 @@ export const WALLET_DEFAULT_TOKEN_LIST = {
   tokens: [
     tokenToTokenListItem(WALLET, ChainId.MAINNET),
     tokenToTokenListItem(xWALLET, ChainId.MAINNET),
-    tokenToTokenListItem(ADX_LOYALTY, ChainId.MAINNET),
+    // tokenToTokenListItem(ADX_LOYALTY, ChainId.MAINNET),
     tokenToTokenListItem(ADX_STAKING, ChainId.MAINNET),
   ],
 }

@@ -222,7 +222,7 @@ export const COMMON_BASES: ChainTokenList = {
     xWALLET[ChainId.MAINNET],
     ADX[ChainId.MAINNET],
     ADX_STAKING[ChainId.MAINNET],
-    ADX_LOYALTY[ChainId.MAINNET],
+    // ADX_LOYALTY[ChainId.MAINNET],
     SUSHI[ChainId.MAINNET],
   ],
   [ChainId.MATIC]: [
