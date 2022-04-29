@@ -79,6 +79,10 @@ import { NETWORK_ICON, NETWORK_LABEL } from '../../../config/networks'
 
 const UNSUPPORTED_NETWORKS_LABELS = {
   [1284]: 'Moonbeam',
+  [1088]: 'Andromeda',
+  [321]: 'KuCoin',
+  [25]: 'Cronos',
+  [1313161554]: 'Aurora',
 }
 
 export default function Swap() {
@@ -451,10 +455,11 @@ export default function Swap() {
             <div className="flex justify-start mb-7">
               <AlertTriangle className="text-ambire-purple" size={69} />
             </div>
-            Unfortunately, dashboard Swap is not supported on{' '}
+            Unfortunately, dashboard Swap is not supported on{' "'}
             {UNSUPPORTED_NETWORKS_LABELS[chainId]
               ? `${UNSUPPORTED_NETWORKS_LABELS[chainId]} network`
-              : `Chain ${chainId}`}{' '}
+              : `Chain ${chainId}`}
+            {'" '}
             network yet. If you want to swap funds:
           </div>
           <div className="mb-1 text-xl">
@@ -468,7 +473,10 @@ export default function Swap() {
               {' '}
               sushi.com{' '}
             </a>
-            and connect Ambire Wallet on Moonbeam via WalletConnect.
+            and connect Ambire Wallet on
+            {' "'}
+            {UNSUPPORTED_NETWORKS_LABELS[chainId] ? `${UNSUPPORTED_NETWORKS_LABELS[chainId]}` : `Chain ${chainId}`}
+            {'" '} via WalletConnect.
           </div>
         </div>
         <div></div>

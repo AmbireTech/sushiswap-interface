@@ -1,7 +1,7 @@
 import { ChainId } from '@sushiswap/sdk'
 
 const rpc = {
-  [ChainId.MAINNET]: 'https://eth-mainnet.alchemyapi.io/v2/q1gSNoSMEzJms47Qn93f9-9Xg5clkmEC',
+  [ChainId.MAINNET]: 'https://eth-mainnet.alchemyapi.io/v2/c5G1FTDJlUEeqgF-I159u0apqSo1_RF3',
   [ChainId.ROPSTEN]: 'https://eth-ropsten.alchemyapi.io/v2/cidKix2Xr-snU3f6f6Zjq_rYdalKKHmW',
   [ChainId.RINKEBY]: 'https://eth-rinkeby.alchemyapi.io/v2/XVLwDlhGP6ApBXFz_lfv0aZ6VmurWhYD',
   [ChainId.GÖRLI]: 'https://eth-goerli.alchemyapi.io/v2/Dkk5d02QjttYEoGmhZnJG37rKt8Yl3Im',
@@ -9,7 +9,7 @@ const rpc = {
   [ChainId.FANTOM]: 'https://rpcapi.fantom.network',
   [ChainId.FANTOM_TESTNET]: 'https://rpc.testnet.fantom.network',
   // [ChainId.MATIC]: 'https://rpc-mainnet.maticvigil.com',
-  [ChainId.MATIC]: 'https://polygon-mainnet.infura.io/v3/3d22938fd7dd41b7af4197752f83e8a1',
+  [ChainId.MATIC]: 'https://polygon-mainnet.g.alchemy.com/v2/wJ47PIIp1a6Xv7GIiDWuoPk4OqGF_jAL',
   [ChainId.MATIC_TESTNET]: 'https://rpc-mumbai.matic.today',
   [ChainId.XDAI]: 'https://rpc.xdaichain.com',
   [ChainId.BSC]: 'https://bsc-dataseed.binance.org/',
