@@ -83,6 +83,7 @@ const UNSUPPORTED_NETWORKS_LABELS = {
   [321]: 'KuCoin',
   [25]: 'Cronos',
   [1313161554]: 'Aurora',
+  [10]: 'Optimism',
 }
 
 export default function Swap() {
