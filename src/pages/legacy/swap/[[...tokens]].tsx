@@ -359,16 +359,9 @@ const Swap = ({ banners }) => {
     }
 
     const fromToken = parsedAmounts[Field.INPUT].currency
-    console.log(fromToken)
-    const fromTokenAddress = fromToken.isToken
-      ? fromToken.address
-      : // : fromToken.wrapped().address
-        '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // temp solution as above threw 'wrapped is not a function'
+    const fromTokenAddress = fromToken.isToken ? fromToken.address : fromToken.wrapped.address
     const toToken = parsedAmounts[Field.OUTPUT].currency
-    const toTokenAddress = toToken.isToken
-      ? toToken.address
-      : // : toToken.wrapped().address
-        '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // temp solution as above threw 'wrapped is not a function'
+    const toTokenAddress = toToken.isToken ? toToken.address : toToken.wrapped.address
 
     const fromAmount = parsedAmounts[Field.INPUT]?.multiply(10 ** fromToken.decimals).toSignificant()
     const toAmount = parsedAmounts[Field.OUTPUT]?.multiply(10 ** toToken.decimals).toSignificant()
