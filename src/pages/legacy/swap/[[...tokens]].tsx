@@ -353,18 +353,20 @@ const Swap = ({ banners }) => {
   const [oneInchApiRate, setOneInchApiRate] = useState(0)
 
   useEffect(async () => {
-    // TODO: improve this basic check
-    if (!parsedAmounts[Field.INPUT] || !parsedAmounts[Field.OUTPUT]) {
+    const inputCurrencyData = parsedAmounts[Field.INPUT]
+    const outputCurrencyData = parsedAmounts[Field.OUTPUT]
+
+    if (inputCurrencyData === undefined || outputCurrencyData === undefined) {
       return
     }
 
-    const fromToken = parsedAmounts[Field.INPUT].currency
+    const fromToken = inputCurrencyData.currency
     const fromTokenAddress = fromToken.isToken ? fromToken.address : fromToken.wrapped.address
-    const toToken = parsedAmounts[Field.OUTPUT].currency
-    const toTokenAddress = toToken.isToken ? toToken.address : toToken.wrapped.address
+    const fromAmount = inputCurrencyData.multiply(10 ** fromToken.decimals).toSignificant()
 
-    const fromAmount = parsedAmounts[Field.INPUT]?.multiply(10 ** fromToken.decimals).toSignificant()
-    const toAmount = parsedAmounts[Field.OUTPUT]?.multiply(10 ** toToken.decimals).toSignificant()
+    const toToken = outputCurrencyData.currency
+    const toTokenAddress = toToken.isToken ? toToken.address : toToken.wrapped.address
+    const toAmount = outputCurrencyData.multiply(10 ** toToken.decimals).toSignificant()
 
     console.log(`--- input: ${fromTokenAddress}, amount: ${fromAmount}`)
     console.log(`--- output: ${toTokenAddress}, amount: ${toAmount}`)
