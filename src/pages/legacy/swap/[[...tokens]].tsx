@@ -1,8 +1,7 @@
-import { formatUnits } from '@ethersproject/units'
 import { ArrowDownIcon } from '@heroicons/react/solid'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { Currency, JSBI, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, JSBI, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
 import Banner from 'app/components/Banner'
 import Button from 'app/components/Button'
 import OneInchRate from 'app/components/OneInchRate'
@@ -360,6 +359,7 @@ const Swap = ({ banners }) => {
     }
 
     const fromToken = parsedAmounts[Field.INPUT].currency
+    console.log(fromToken)
     const fromTokenAddress = fromToken.isToken
       ? fromToken.address
       : // : fromToken.wrapped().address
@@ -382,10 +382,7 @@ const Swap = ({ banners }) => {
     )
     const responseBody = await response.json()
     // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
-    console.log(parsedAmounts)
-    const rate = Number(formatUnits(responseBody.toTokenAmount, responseBody.toToken.decimals))
-    // const rateAmount = CurrencyAmount.fromRawAmount(responseBody.toToken.symbol, responseBody.toTokenAmount)
-    // console.log(rateAmount)
+    const rate = Number(CurrencyAmount.fromRawAmount(toToken, responseBody.toTokenAmount).toSignificant(6))
     setOneInchApiRate(rate)
   }, [parsedAmounts, oneInchApiRate])
 
