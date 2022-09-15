@@ -1,7 +1,7 @@
 import { ArrowDownIcon } from '@heroicons/react/solid'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { Currency, CurrencyAmount, JSBI, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, JSBI, Percent, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
 import Banner from 'app/components/Banner'
 import Button from 'app/components/Button'
 import OneInchRate from 'app/components/OneInchRate'
@@ -351,6 +351,7 @@ const Swap = ({ banners }) => {
   }, [priceImpactSeverity])
 
   const [oneInchApiRate, setOneInchApiRate] = useState(0)
+  const [oneInchRatePercentDiff, setOneInchRatePercentDiff] = useState(0)
 
   useEffect(async () => {
     const inputCurrencyData = parsedAmounts[Field.INPUT]
@@ -379,6 +380,13 @@ const Swap = ({ banners }) => {
     // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
     const rate = Number(CurrencyAmount.fromRawAmount(toToken, responseBody.toTokenAmount).toSignificant(6))
     setOneInchApiRate(rate)
+
+    const percentDiff = new Percent(
+      JSBI.subtract(JSBI.BigInt(responseBody.toTokenAmount), JSBI.BigInt(toAmount)),
+      JSBI.BigInt(toAmount)
+    ).toFixed(2)
+    setOneInchRatePercentDiff(Number(percentDiff))
+    // console.log(`--- percentDiff: ${percentDiff}`)
   }, [parsedAmounts, oneInchApiRate])
 
   return (
@@ -439,7 +447,7 @@ const Swap = ({ banners }) => {
             priceImpact={priceImpact}
             priceImpactCss={priceImpactCss}
           />
-          <OneInchRate rate={oneInchApiRate} />
+          <OneInchRate rate={oneInchApiRate} percentDiff={oneInchRatePercentDiff} />
           {
             // isExpertMode &&
             <RecipientField recipient={recipient} action={setRecipient} />
