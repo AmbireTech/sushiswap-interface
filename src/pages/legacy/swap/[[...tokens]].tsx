@@ -1,9 +1,11 @@
+import { formatUnits } from '@ethersproject/units'
 import { ArrowDownIcon } from '@heroicons/react/solid'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { Currency, JSBI, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
 import Banner from 'app/components/Banner'
 import Button from 'app/components/Button'
+import OneInchRate from 'app/components/OneInchRate'
 import RecipientField from 'app/components/RecipientField'
 import Typography from 'app/components/Typography'
 import Web3Connect from 'app/components/Web3Connect'
@@ -349,6 +351,44 @@ const Swap = ({ banners }) => {
     }
   }, [priceImpactSeverity])
 
+  const [oneInchApiRate, setOneInchApiRate] = useState(0)
+
+  useEffect(async () => {
+    // TODO: improve this basic check
+    if (!parsedAmounts[Field.INPUT] || !parsedAmounts[Field.OUTPUT]) {
+      return
+    }
+
+    const fromToken = parsedAmounts[Field.INPUT].currency
+    const fromTokenAddress = fromToken.isToken
+      ? fromToken.address
+      : // : fromToken.wrapped().address
+        '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // temp solution as above threw 'wrapped is not a function'
+    const toToken = parsedAmounts[Field.OUTPUT].currency
+    const toTokenAddress = toToken.isToken
+      ? toToken.address
+      : // : toToken.wrapped().address
+        '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // temp solution as above threw 'wrapped is not a function'
+
+    const fromAmount = parsedAmounts[Field.INPUT]?.multiply(10 ** fromToken.decimals).toSignificant()
+    const toAmount = parsedAmounts[Field.OUTPUT]?.multiply(10 ** toToken.decimals).toSignificant()
+
+    console.log(`--- input: ${fromTokenAddress}, amount: ${fromAmount}`)
+    console.log(`--- output: ${toTokenAddress}, amount: ${toAmount}`)
+
+    // 1inch fetch swap quote
+    const response = await fetch(
+      `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromAmount}`
+    )
+    const responseBody = await response.json()
+    // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
+    console.log(parsedAmounts)
+    const rate = Number(formatUnits(responseBody.toTokenAmount, responseBody.toToken.decimals))
+    // const rateAmount = CurrencyAmount.fromRawAmount(responseBody.toToken.symbol, responseBody.toTokenAmount)
+    // console.log(rateAmount)
+    setOneInchApiRate(rate)
+  }, [parsedAmounts, oneInchApiRate])
+
   return (
     <>
       <NextSeo title="Swap" />
@@ -407,6 +447,7 @@ const Swap = ({ banners }) => {
             priceImpact={priceImpact}
             priceImpactCss={priceImpactCss}
           />
+          <OneInchRate rate={oneInchApiRate} />
           {
             // isExpertMode &&
             <RecipientField recipient={recipient} action={setRecipient} />

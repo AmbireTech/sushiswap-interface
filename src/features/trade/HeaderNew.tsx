@@ -36,28 +36,6 @@ const HeaderNew: FC<HeaderNewProps> = ({ inputCurrency, outputCurrency, trident 
   return (
     <div className="flex items-center justify-between gap-1">
       <div className="flex gap-4 text-blue">
-        {/* <NavLink
-          activeClassName="text-high-emphesis"
-          href={{
-            pathname: trident ? '/trident/swap' : '/swap',
-            query: getQuery(inputCurrency, outputCurrency),
-          }}
-        >
-          <Typography weight={700} className="text-secondary hover:text-white">
-            {i18n._(t`Swap`)}
-          </Typography>
-        </NavLink> */}
-        {/* <NavLink
-          activeClassName="text-high-emphesis"
-          href={{
-            pathname: '/limit-order',
-            query: getQuery(inputCurrency, outputCurrency),
-          }}
-        >
-          <Typography weight={700} className="text-secondary hover:text-white">
-            {i18n._(t`Limit`)}
-          </Typography>
-        </NavLink> */}
         <div className="flex flex-col">
           {isExpertMode && (
             <div className="flex items-center">
