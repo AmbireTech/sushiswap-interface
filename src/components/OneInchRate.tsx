@@ -1,19 +1,32 @@
-import React, { FC } from 'react'
+import React, { FC, Fragment } from 'react'
 
 interface OneInchRate {
   rate: number
   percentDiff: number
 }
 
+const Link: FC = () => {
+  return (
+    <a className="text-blue" target="_blank" rel="noreferrer" href="https://app.1inch.io/">
+      1inch
+    </a>
+  )
+}
+
 const OneInchRate: FC<OneInchRate> = ({ rate, percentDiff }) => {
   return (
-    <div>
-      {rate !== 0 && (
-        <div>
-          One inch rate is: {rate} ({percentDiff} %)
+    <Fragment>
+      {percentDiff > 2 && (
+        <div className="border border-orange-700 p-2">
+          <p>
+            The rate at <Link /> is better: {rate} ({percentDiff} %)
+          </p>
+          <p>
+            You should consider swapping at <Link />
+          </p>
         </div>
       )}
-    </div>
+    </Fragment>
   )
 }
 
