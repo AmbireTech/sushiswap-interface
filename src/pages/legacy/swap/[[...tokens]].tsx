@@ -376,16 +376,19 @@ const Swap = ({ banners }) => {
     const response = await fetch(
       `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromAmount}`
     )
-    const responseBody = await response.json()
-    // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
-    const rate = Number(CurrencyAmount.fromRawAmount(toToken, responseBody.toTokenAmount).toSignificant(6))
-    setOneInchApiRate(rate)
+    if (response.status == 200) {
+      const responseBody = await response.json()
+      // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
+      const rate = Number(CurrencyAmount.fromRawAmount(toToken, responseBody.toTokenAmount).toSignificant(6))
+      setOneInchApiRate(rate)
 
-    const percentDiff = new Percent(
-      JSBI.subtract(JSBI.BigInt(responseBody.toTokenAmount), JSBI.BigInt(toAmount)),
-      JSBI.BigInt(toAmount)
-    ).toFixed(2)
-    setOneInchRatePercentDiff(Number(percentDiff))
+      const percentDiff = new Percent(
+        JSBI.subtract(JSBI.BigInt(responseBody.toTokenAmount), JSBI.BigInt(toAmount)),
+        JSBI.BigInt(toAmount)
+      ).toFixed(2)
+      setOneInchRatePercentDiff(Number(percentDiff))
+    }
+
     // console.log(`--- percentDiff: ${percentDiff}`)
   }, [parsedAmounts, oneInchApiRate])
 
