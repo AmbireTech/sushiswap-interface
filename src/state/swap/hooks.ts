@@ -4,6 +4,7 @@ import {
   ChainId,
   Currency,
   CurrencyAmount,
+  JSBI,
   Percent,
   SUSHI_ADDRESS,
   Trade as V2Trade,
@@ -120,6 +121,7 @@ export function useDerivedSwapInfo(): {
   v2Trade: V2Trade<Currency, Currency, TradeType> | undefined
   allowedSlippage: Percent
 } {
+  console.log(123123111)
   const { i18n } = useLingui()
   const { account, chainId } = useActiveWeb3React()
   const [singleHopOnly] = useUserSingleHopOnly()
@@ -326,4 +328,60 @@ export function useDefaultsFromURLSearch():
   }, [dispatch, chainId])
 
   return result
+}
+
+// fetch 1inch rate and return it along with percent difference compared to sushiswap
+export function useOnceInchRate(parsedAmounts: { [field in Field]?: CurrencyAmount<Currency> }): {
+  oneInchApiRate: number
+  oneInchRatePercentDiff: number
+} {
+  const [oneInchApiRate, setOneInchApiRate] = useState(0)
+  const [oneInchRatePercentDiff, setOneInchRatePercentDiff] = useState(0)
+
+  useEffect(() => {
+    const inputCurrencyData = parsedAmounts[Field.INPUT]
+    const outputCurrencyData = parsedAmounts[Field.OUTPUT]
+
+    if (inputCurrencyData === undefined || outputCurrencyData === undefined) {
+      return
+    }
+
+    const fromToken = inputCurrencyData.currency
+    const fromTokenAddress = fromToken.isToken ? fromToken.address : fromToken.wrapped.address
+    const fromAmount = inputCurrencyData.multiply(10 ** fromToken.decimals).toSignificant()
+
+    const toToken = outputCurrencyData.currency
+    const toTokenAddress = toToken.isToken ? toToken.address : toToken.wrapped.address
+    const toAmount = outputCurrencyData.multiply(10 ** toToken.decimals).toSignificant()
+
+    // console.log(`--- input: ${fromTokenAddress}, amount: ${fromAmount}`)
+    // console.log(`--- output: ${toTokenAddress}, amount: ${toAmount}`)
+
+    // 1inch fetch swap quote
+    const oneInchFetch = async () => {
+      const response = await fetch(
+        `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromAmount}`
+      )
+      if (response.status == 200) {
+        const responseBody = await response.json()
+        // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
+        const rate = Number(CurrencyAmount.fromRawAmount(toToken, responseBody.toTokenAmount).toSignificant(6))
+        setOneInchApiRate(rate)
+
+        const percentDiff = new Percent(
+          JSBI.subtract(JSBI.BigInt(responseBody.toTokenAmount), JSBI.BigInt(toAmount)),
+          JSBI.BigInt(toAmount)
+        ).toFixed(2)
+        setOneInchRatePercentDiff(Number(percentDiff))
+        // console.log(`--- percentDiff: ${percentDiff}`)
+      }
+    }
+
+    oneInchFetch()
+  }, [parsedAmounts])
+
+  return {
+    oneInchApiRate,
+    oneInchRatePercentDiff,
+  }
 }
