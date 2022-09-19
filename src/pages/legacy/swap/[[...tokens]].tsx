@@ -394,7 +394,7 @@ const Swap = ({ banners }) => {
     }
 
     oneInchFetch()
-  }, [formattedAmounts[Field.INPUT], currencies[Field.INPUT]])
+  }, [formattedAmounts[Field.INPUT], currencies[Field.INPUT], currencies[Field.OUTPUT]])
 
   return (
     <>
