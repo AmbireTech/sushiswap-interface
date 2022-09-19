@@ -377,7 +377,6 @@ const Swap = ({ banners }) => {
       const response = await fetch(
         `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromAmount}`
       )
-      console.log('tried to fetch')
       if (response.status == 200) {
         const responseBody = await response.json()
         // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)

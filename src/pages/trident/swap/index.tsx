@@ -137,7 +137,6 @@ const Swap = () => {
             currency={currencies[0]}
             value={formattedAmounts[0]}
             onChange={(value) => {
-              console.log(555)
               dispatch(setTridentSwapState({ ...tridentSwapState, value: value || '', typedField: TypedField.A }))
             }}
             onSelect={(currency) => setURLCurrency(currency, 0)}
@@ -177,7 +176,6 @@ const Swap = () => {
             currency={currencies[1]}
             value={formattedAmounts[1]}
             onChange={(value) => {
-              console.log(9999)
               // Change typedField to TypedField.B once exactOut is available
               dispatch(setTridentSwapState({ ...tridentSwapState, value: value || '', typedField: TypedField.A }))
             }}
