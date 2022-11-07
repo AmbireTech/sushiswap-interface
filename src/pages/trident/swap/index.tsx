@@ -136,9 +136,9 @@ const Swap = () => {
             spendFromWallet={_spendFromWallet}
             currency={currencies[0]}
             value={formattedAmounts[0]}
-            onChange={(value) =>
+            onChange={(value) => {
               dispatch(setTridentSwapState({ ...tridentSwapState, value: value || '', typedField: TypedField.A }))
-            }
+            }}
             onSelect={(currency) => setURLCurrency(currency, 0)}
           />
           <div className="z-0 flex justify-center -mt-6 -mb-6">

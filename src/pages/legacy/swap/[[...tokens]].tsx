@@ -1,9 +1,10 @@
 import { ArrowDownIcon } from '@heroicons/react/solid'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { Currency, JSBI, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, JSBI, Percent, Token, Trade as V2Trade, TradeType } from '@sushiswap/core-sdk'
 import Banner from 'app/components/Banner'
 import Button from 'app/components/Button'
+import OneInchRate from 'app/components/OneInchRate'
 import RecipientField from 'app/components/RecipientField'
 import Typography from 'app/components/Typography'
 import Web3Connect from 'app/components/Web3Connect'
@@ -349,6 +350,51 @@ const Swap = ({ banners }) => {
     }
   }, [priceImpactSeverity])
 
+  const [oneInchApiRate, setOneInchApiRate] = useState(0)
+  const [oneInchRatePercentDiff, setOneInchRatePercentDiff] = useState(0)
+
+  useEffect(() => {
+    const inputCurrencyData = parsedAmounts[Field.INPUT]
+    const outputCurrencyData = parsedAmounts[Field.OUTPUT]
+
+    if (inputCurrencyData === undefined || outputCurrencyData === undefined) {
+      return
+    }
+
+    const fromToken = inputCurrencyData.currency
+    const fromTokenAddress = fromToken.isToken ? fromToken.address : fromToken.wrapped.address
+    const fromAmount = inputCurrencyData.multiply(10 ** fromToken.decimals).toSignificant()
+
+    const toToken = outputCurrencyData.currency
+    const toTokenAddress = toToken.isToken ? toToken.address : toToken.wrapped.address
+    const toAmount = outputCurrencyData.multiply(10 ** toToken.decimals).toSignificant()
+
+    // console.log(`--- input: ${fromTokenAddress}, amount: ${fromAmount}`)
+    // console.log(`--- output: ${toTokenAddress}, amount: ${toAmount}`)
+
+    // 1inch fetch swap quote
+    const oneInchFetch = async () => {
+      const response = await fetch(
+        `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromAmount}`
+      )
+      if (response.status == 200) {
+        const responseBody = await response.json()
+        // console.log(`--- 1inch quote output amount: ${responseBody.toTokenAmount}`)
+        const rate = Number(CurrencyAmount.fromRawAmount(toToken, responseBody.toTokenAmount).toSignificant(6))
+        setOneInchApiRate(rate)
+
+        const percentDiff = new Percent(
+          JSBI.subtract(JSBI.BigInt(responseBody.toTokenAmount), JSBI.BigInt(toAmount)),
+          JSBI.BigInt(toAmount)
+        ).toFixed(2)
+        setOneInchRatePercentDiff(Number(percentDiff))
+        // console.log(`--- percentDiff: ${percentDiff}`)
+      }
+    }
+
+    oneInchFetch()
+  }, [parsedAmounts[Field.INPUT], parsedAmounts[Field.OUTPUT]])
+
   return (
     <>
       <NextSeo title="Swap" />
@@ -407,6 +453,7 @@ const Swap = ({ banners }) => {
             priceImpact={priceImpact}
             priceImpactCss={priceImpactCss}
           />
+          <OneInchRate rate={oneInchApiRate} percentDiff={oneInchRatePercentDiff} />
           {
             // isExpertMode &&
             <RecipientField recipient={recipient} action={setRecipient} />
